@@ -18,23 +18,23 @@ describe('Room', () => {
         expect(room.number).to.equal(15);
     });
 
-    it.skip('Should have a room type', () => {
+    it('Should have a room type', () => {
         const room = new Room(rooms[2]);
         expect(room.roomType).to.equal('single room');
     });
 
-    it.skip('Should know if it has bidet', () => {
-        const room = new Room(room[1]);
+    it('Should know if it has bidet', () => {
+        const room = new Room(rooms[1]);
         expect(room.bidet).to.equal(false);
     });
 
-    it.skip('Should have number of beds', () => {
-        const room = new Room(room[4]);
+    it('Should have number of beds', () => {
+        const room = new Room(rooms[4]);
         expect(room.numBeds).to.equal(1);
     });
 
-    it.skip('Should have cost per night', () => {
-        const room = new Room(room[3]);
+    it('Should have cost per night', () => {
+        const room = new Room(rooms[3]);
         expect(room.costPerNight).to.equal(207.24);
     });
 
