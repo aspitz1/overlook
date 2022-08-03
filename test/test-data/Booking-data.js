@@ -51,7 +51,7 @@ export const bookings = [
     {
         "id": "5fwrgu4i7k55hl6wa",
         "userID": 9,
-        "date": "2022/10/23",
+        "date": "2023/10/23",
         "roomNumber": 21,
 
     }
