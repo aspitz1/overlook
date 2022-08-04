@@ -2,8 +2,7 @@ import chai from 'chai';
 const expect = chai.expect;
 import { rooms } from './test-data/room-data';
 import { bookings } from './test-data/booking-data';
-import { customers } from './test-data/customer-data';
-import Hotel from '../src/classes/Hotel'; 
+import Hotel from '../src/classes/Hotel';
 
 describe('Hotel', () => {
     let hotel;
@@ -28,25 +27,23 @@ describe('Hotel', () => {
         expect(hotel.allRooms).to.deep.equal(rooms);
     });
 
-    it('Should have all the customers', () => {
-        expect(hotel.allCustomers).to.deep.equal(customers);
+    it('Should return all availible rooms', () => {
+        const availibleRooms = hotel.getAvailibleAndUnavailibleRooms('2023/10/23').availibleRooms;
+        expect(availibleRooms).to.deep.equal([rooms[0], rooms[1], rooms[2], rooms[3], rooms[4], rooms[5]]);
     });
 
-    it.skip('Should make bookings', () => {
-        hotel.makeBooking({room: rooms[1], customer: customers[1]});
-        const availibleRooms = hotel.getAvailibleRooms();
-        const bookedRooms = hotel.getBookedRooms();
-        expect(availibleRooms).to.deep.equal([rooms[0], rooms[2], rooms[3], rooms[5]]);
-        expect(bookedRooms).to.deep.equal([rooms[4], rooms[6], rooms[1]]);
+    it('Should return all booked rooms', () => {
+        const bookedRooms = hotel.getAvailibleAndUnavailibleRooms('2023/02/23').unavailibleRooms;
+        expect(bookedRooms).to.deep.equal([rooms[4]]);
     });
 
-    it.skip('Should cancel bookings', () => {
-        hotel.cancelBooking({room: rooms[4], customer: customers[2]})
-        const availibleRooms = hotel.getAvailibleRooms();
-        const bookedRooms = hotel.getBookedRooms();
-        expect(availibleRooms).to.deep.equal([rooms[0], rooms[2], rooms[3], rooms[4], rooms[5]]);
-        expect(bookedRooms).to.deep.equal([rooms[6], rooms[1]]);
-        
+    it('Should make a Booking', () => {
+        const newBooking = hotel.makeBookingObj({room: rooms[1], customer: customers[1], date: '2023/02/23'});
+        expect(newBooking).to.deep.equal({
+            userID: 12,
+            date: '2023/02/23',
+            roomNumber: 23
+        });
     });
 
 });
