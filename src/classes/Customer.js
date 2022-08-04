@@ -1,11 +1,11 @@
 class Customer {
-    constructor(customerData) {
-        this.id = customerData.customer.id;
-        this.name = customerData.customer.name;
+    constructor(customerDataAndAllBookings) {
+        this.id = customerDataAndAllBookings.customer.id;
+        this.name = customerDataAndAllBookings.customer.name;
         this.loginName = `customer${this.id}`;
         this.password = 'overlook2021';
-        this.futureBookings = this.findFutureBookings(customerData.allBookings);
-        this.pastBookings = this.findPastBookings(customerData.allBookings);
+        this.futureBookings = this.findFutureBookings(customerDataAndAllBookings.allBookings);
+        this.pastBookings = this.findPastBookings(customerDataAndAllBookings.allBookings);
     }
 
     findFutureBookings(allBookings) {
