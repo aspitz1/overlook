@@ -13,6 +13,11 @@ describe('Room', () => {
         expect(room).to.be.an.instanceof(Room);
     });
 
+    it('Should have a bed size', () => {
+        const room = new Room(rooms[2]);
+        expect(room.bedSize).to.equal('queen');
+    });
+
     it('Should have a room number', () => {
         const room = new Room(rooms[0]);
         expect(room.number).to.equal(15);
