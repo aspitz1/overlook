@@ -1,7 +1,18 @@
+import Room from './Room';
+import Booking from './Booking';
+
 class Hotel {
     constructor(allHotelData) {
-        this.allRooms = allHotelData.allRooms;
-        this.allBookings = allHotelData.allBookings;
+        this.allRooms = this.makeRooms(allHotelData.allRooms);
+        this.allBookings = this.makeBookings(allHotelData.allBookings);
+    }
+
+    makeRooms(rooms) {
+        return rooms.map(room => new Room(room));
+    }
+
+    makeBookings(bookings) {
+        return bookings.map(booking => new Booking(booking));
     }
 
     getAvailibleAndUnavailibleRooms(date) {

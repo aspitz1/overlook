@@ -3,12 +3,13 @@ const expect = chai.expect;
 import { rooms } from './test-data/room-data';
 import { bookings } from './test-data/booking-data';
 import Hotel from '../src/classes/Hotel';
+import { customers } from './test-data/customer-data';
 
 describe('Hotel', () => {
     let hotel;
 
     beforeEach(() => {
-        hotel = new Hotel({allRooms: rooms, allBookings: bookings, allCustomers: customers});
+        hotel = new Hotel({allRooms: rooms, allBookings: bookings});
     });
 
     it('Should be a function', () => {
@@ -17,14 +18,14 @@ describe('Hotel', () => {
 
     it('Should be an instance of Hotel', () => {
         expect(hotel).to.be.a.instanceOf(Hotel);
+    }); 
+
+    it('Should have all the rooms', () => {
+        expect(hotel.allRooms).to.deep.equal(rooms);
     });
 
     it('Should have all the bookings', () => {
         expect(hotel.allBookings).to.deep.equal(bookings);
-    });
-
-    it('Should have all the rooms', () => {
-        expect(hotel.allRooms).to.deep.equal(rooms);
     });
 
     it('Should return all availible rooms', () => {
