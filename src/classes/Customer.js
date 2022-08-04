@@ -1,13 +1,11 @@
-import { bookings } from '../../test/test-data/booking-data';
-
 class Customer {
     constructor(customerData) {
-        this.id = customerData.id;
-        this.name = customerData.name;
+        this.id = customerData.customer.id;
+        this.name = customerData.customer.name;
         this.loginName = `customer${this.id}`;
         this.password = 'overlook2021';
-        this.futureBookings = this.findFutureBookings(bookings);
-        this.pastBookings = this.findPastBookings(bookings);
+        this.futureBookings = this.findFutureBookings(customerData.allBookings);
+        this.pastBookings = this.findPastBookings(customerData.allBookings);
     }
 
     findFutureBookings(allBookings) {
