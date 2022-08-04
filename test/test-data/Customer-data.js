@@ -1,4 +1,4 @@
-export const customer = [
+export const customers = [
     {
         "id": 9,
         "name": "Faustino Quitzon"
