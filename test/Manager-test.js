@@ -29,18 +29,8 @@ describe('Manager', () => {
         expect(manager.password).to.equal('overlook2021');
     });
 
-    it.skip('Should return all availible rooms', () => {
-        const availibleRooms = hotel.getAvailibleRooms({allRooms: rooms, allBookings: bookings});
-        expect(availibleRooms).to.deep.equal([rooms[0], rooms[1], rooms[2], rooms[3], rooms[5]]);
-    });
-
-    it.skip('Should return all booked rooms', () => {
-        const bookedRooms = hotel.getBookedRooms({allRooms: rooms, allBookings: bookings});
-        expect(bookedRooms).to.deep.equal([rooms[4], rooms[6]]);
-    });
-
     it.skip('Should give percentage of availible rooms rounded down to nearest whole', () => {
-        const percentAvailibleRooms = hotel.getPercentAvailibleRooms({allRooms: rooms, allBookings: bookings});
+        const percentAvailibleRooms = manager.getPercentAvailibleRooms({allRooms: rooms, allBookings: bookings});
         expect(percentAvailibleRooms).to.equal('71%');
     });
     
