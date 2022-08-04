@@ -10,7 +10,7 @@ describe('Manager', () => {
     let manager;
     
     beforeEach(() => {
-        manager = new Manager();
+        manager = new Manager({customers: customers, allBookings: bookings});
     });
 
     it('Should be a function', () => {
@@ -29,15 +29,14 @@ describe('Manager', () => {
         expect(manager.password).to.equal('overlook2021');
     });
 
-    it.skip('Should give percentage of availible rooms rounded down to nearest whole', () => {
-        const percentAvailibleRooms = manager.getPercentAvailibleRooms({allRooms: rooms, allBookings: bookings});
-        expect(percentAvailibleRooms).to.equal('71%');
+    it('Should have all customers', () => {
+        const allCustomers = customers.map(customer => new Customer({customer: customer, allBookings: bookings}))
+        expect(manager.allCustomers).to.deep.equal(allCustomers);
     });
-    
-    
-    it.skip('Should be able to make a customer', () => {
-        const customer = manager.makeCustomer({customer: customers[0], allBookings: bookings});  
-        expect(customer).to.be.a.instanceOf(Customer);
+
+    it('Should give percentage of availible rooms rounded down to nearest whole', () => {
+        const percentAvailibleRooms = manager.getPercentAvailibleRooms({allRooms: rooms, allBookings: bookings, date: "2023/02/23"});
+        expect(percentAvailibleRooms).to.equal('14%');
     });
 
 });
