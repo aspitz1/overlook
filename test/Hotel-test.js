@@ -32,21 +32,6 @@ describe('Hotel', () => {
         expect(hotel.allCustomers).to.deep.equal(customers);
     });
 
-    it.skip('Should return all availible rooms', () => {
-        const availibleRooms = hotel.getAvailibleRooms();
-        expect(availibleRooms).to.deep.equal([rooms[0], rooms[1], rooms[2], rooms[3], rooms[5]]);
-    });
-
-    it.skip('Should return all booked rooms', () => {
-        const bookedRooms = hotel.getBookedRooms();
-        expect(bookedRooms).to.deep.equal([rooms[4], rooms[6]]);
-    });
-
-    it.skip('Should give percentage of availible rooms rounded down to nearest whole', () => {
-        const percentAvailibleRooms = hotel.getPercentAvailibleRooms();
-        expect(percentAvailibleRooms).to.equal('71%');
-    });
-
     it.skip('Should make bookings', () => {
         hotel.makeBooking({room: rooms[1], customer: customers[1]});
         const availibleRooms = hotel.getAvailibleRooms();
