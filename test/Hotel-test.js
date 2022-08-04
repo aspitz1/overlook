@@ -3,7 +3,7 @@ const expect = chai.expect;
 import { rooms } from './test-data/room-data';
 import { bookings } from './test-data/booking-data';
 import { customers } from './test-data/customer-data';
-import Hotel from '../src/classes/Hotel';
+import Hotel from '../src/classes/Hotel'; 
 
 describe('Hotel', () => {
     let hotel;
