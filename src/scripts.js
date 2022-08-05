@@ -54,6 +54,12 @@ const loginAsCustomer = (loginNum) => {
 
 }
 
+const loadCustomerDash = () => {
+    dashboardSectionCustomer.innerHTML = (`
+        
+    `); 
+}
+
 window.addEventListener('load', () => {
     hideOff([loginSection]);
     loginSection.innerHTML = (`
