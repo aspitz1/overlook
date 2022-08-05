@@ -34,6 +34,10 @@ class Hotel {
             roomNumber: bookingData.room.number
         }
     }
+
+    filterRoomsByType(roomsAndRoomType) {
+        return roomsAndRoomType.rooms.filter(room => room.roomType === roomsAndRoomType.roomType);
+    }
     
 }
 

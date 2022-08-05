@@ -47,4 +47,9 @@ describe('Hotel', () => {
         });
     });
 
+    it('Should filter availible rooms by their room type', () => {
+        const filteredRooms = hotel.filterRoomsByType({rooms: [rooms[0], rooms[1], rooms[2], rooms[3], rooms[4], rooms[5]], roomType: 'single room'});
+        expect(filteredRooms).to.deep.equal([rooms[2], rooms[3], rooms[4]]);
+    });
+
 });
