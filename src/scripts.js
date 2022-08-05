@@ -62,11 +62,34 @@ const loadCustomerDash = () => {
             <button class="book-room-btn" id="bookRoomBtn">Book a Room</button>
         </nav>
         <h1 class="customer-dash-heading">Welcome back ${customer.name}!</h1>
-        <section class="upcoming-bookings-section" id="upcomingBookingSection"></section>
-        <section class="past-bookings-section" id="pastBookingSection"></section>
-        <section class="total-spent-section" id="totalSpentSection"></section>
-    `); 
+        <section class="upcoming-bookings-section" id="upcomingBookingSection">
+            <h2 class="customer-dash-section-heading">Upcoming Bookings</h2>
+        </section>
+        <section class="past-bookings-section" id="pastBookingSection">
+            <h2 class="customer-dash-section-heading">Past Bookings</h2>
+        </section>
+        <section class="total-spent-section" id="totalSpentSection">
+            <h2 class="customer-dash-section-heading">Total Amount Spent on Past Bookings</h2>
+            <p class="customer-dash-total-spent">$${customer.returnTotalSpent(hotel.allRooms)}</p>
+        </section>
+    `);
+    buildBookings({bookings: customer.futureBookings, elementID: 'upcomingBookingSection'});
+    buildBookings({bookings: customer.pastBookings, elementID: 'pastBookingSection'});
+
 }
+
+const buildBookings = (bookingsAndElementID) => {
+    bookingsAndElementID.bookings.forEach(booking => {
+        const room = hotel.findRoom(booking.roomNumber);
+        document.querySelector(`#${bookingsAndElementID.elementID}`).innerHTML += (`
+            <button class="booking-detail-btn" id="bookingDetailBtn data-bookingID=${booking.id}" data-roomNum="${booking.roomNumber}">
+                <p class="booking-info">${booking.date}</p>
+                <p class="booking-info">Room Number: ${booking.roomNumber}</p>
+                <p class="booking-info">Cost Per Night: $${room.costPerNight}</p>
+            </button>
+        `);
+    });
+} 
 
 window.addEventListener('load', () => {
     hideOff([loginSection]);
