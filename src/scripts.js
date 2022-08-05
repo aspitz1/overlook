@@ -17,6 +17,9 @@ let customer;
 let manager;
 let hotel;
 
+const hideOn = (elements) => elements.forEach(element => element.classList.add('hidden'));
+const hideOff = (elements) => elements.forEach(element => element.classList.remove('hidden'));
+
 const loginAsManager = () => {
     Promise.all([getFetch('customers'), getFetch('rooms'), getFetch('bookings')])
         .then(data => {
@@ -46,7 +49,32 @@ const startApp = (loginData) => {
 
 }
 
-startApp({login: 'customer3', password: 'overlook2021'});
+window.addEventListener('load', () => {
+    hideOff([loginSection]);
+    loginSection.innerHTML = (`
+        <h1 class="login-heading">Welcome to Overlook</h1>
+        <p class="login-description">Please sign in.</p>
+        <form>
+            <div class="login-name-wrapper">
+                <label class="hidden" for="login-name">Login Name: </label>
+                <input class="login-name-input" id="loginName" type="text" name="login-name" placeholder="Login Name" required>
+            </div>
+            <div class="password-wrapper">
+                <label class="hidden" for="password">Password: </label>
+                <input class="password-input" id="password" type="password" name="password" placeholder="Password" required>
+            </div>
+            <input class="login-submit-btn" id="loginSubmitBtn" type="submit" value="Login"> 
+        <form>
+    `)
+})
 
-const hideOn = (elements) => elements.forEach(element => element.classList.add('hidden'));
-const hideOff = (elements) => elements.forEach(element => element.classList.remove('hidden'));
+loginSection.addEventListener('click', (event) => {
+    if (event.target.id === 'loginSubmitBtn') {
+        event.preventDefault();
+        const loginName = document.querySelector('#loginName').value;
+        const password = document.querySelector('#password').value;
+        if (loginName.length || password.length) {
+            // make login-description give info on missing login/password. remember to focus
+        }
+    }
+});
