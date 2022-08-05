@@ -48,15 +48,23 @@ const loginAsCustomer = (loginNum) => {
             customer = new Customer({customer: data[0], allBookings: data[2].bookings});
             hotel = new Hotel({allRooms: data[1].rooms, allBookings: data[2].bookings});
             hideOff([dashboardSectionCustomer]);
-            hideOn([loginSection]);  
+            hideOn([loginSection]);
+            loadCustomerDash();  
         })
         .catch(console.error);
 
 }
 
 const loadCustomerDash = () => {
+    console.log(customer);
     dashboardSectionCustomer.innerHTML = (`
-        
+        <nav class="customer-dash-nav">
+            <button class="book-room-btn" id="bookRoomBtn">Book a Room</button>
+        </nav>
+        <h1 class="customer-dash-heading">Welcome back ${customer.name}!</h1>
+        <section class="upcoming-bookings-section" id="upcomingBookingSection"></section>
+        <section class="past-bookings-section" id="pastBookingSection"></section>
+        <section class="total-spent-section" id="totalSpentSection"></section>
     `); 
 }
 
