@@ -4,18 +4,16 @@ class Customer {
         this.name = customerDataAndAllBookings.customer.name;
         this.loginName = `customer${this.id}`;
         this.password = 'overlook2021';
-        this.futureBookings = this.findFutureBookings(customerDataAndAllBookings.allBookings);
-        this.pastBookings = this.findPastBookings(customerDataAndAllBookings.allBookings);
+        this.futureBookings = this.findFutureAndPastBookings(customerDataAndAllBookings.allBookings).futureBookings;
+        this.pastBookings = this.findFutureAndPastBookings(customerDataAndAllBookings.allBookings).pastBookings;
     }
 
-    findFutureBookings(allBookings) {
+    findFutureAndPastBookings(allBookings) {
         const todaysDate = `${new Date().getFullYear()}/${new Date().getMonth()}/${new Date().getDate()}`;
-        return allBookings.filter(booking => booking.date >= todaysDate && booking.userID === this.id);
-    }
-
-    findPastBookings(allBookings) {
-        const todaysDate = `${new Date().getFullYear()}/${new Date().getMonth()}/${new Date().getDate()}`;
-        return allBookings.filter(booking => booking.date < todaysDate && booking.userID === this.id);
+        return {
+            futureBookings: allBookings.filter(booking => booking.date >= todaysDate && booking.userID === this.id),
+            pastBookings: allBookings.filter(booking => booking.date < todaysDate && booking.userID === this.id)
+        };
     }
 
     returnTotalSpent(allRooms) {
