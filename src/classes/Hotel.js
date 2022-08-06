@@ -38,6 +38,10 @@ class Hotel {
     findRoom(roomNum) {
         return this.allRooms.find(room => room.number === roomNum);
     }
+
+    findBooking(bookingID) {
+        return this.allBookings.find(booking => booking.id === bookingID);
+    }
     
 }
 

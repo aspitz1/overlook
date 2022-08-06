@@ -57,4 +57,9 @@ describe('Hotel', () => {
         expect(room).to.deep.equal(rooms[1]);
     });
 
+    it('Should find a booking', () => {
+        const foundBooking = hotel.findBooking('5fwrgu4i7k55hl6wn');
+        expect(foundBooking).to.deep.equal(bookings[3]);
+    });
+
 });
