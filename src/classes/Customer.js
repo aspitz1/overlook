@@ -2,8 +2,6 @@ class Customer {
     constructor(customerDataAndAllBookings) {
         this.id = customerDataAndAllBookings.customer.id;
         this.name = customerDataAndAllBookings.customer.name;
-        this.loginName = `customer${this.id}`;
-        this.password = 'overlook2021';
         this.futureBookings = this.findFutureAndPastBookings(customerDataAndAllBookings.allBookings).futureBookings;
         this.pastBookings = this.findFutureAndPastBookings(customerDataAndAllBookings.allBookings).pastBookings;
     }

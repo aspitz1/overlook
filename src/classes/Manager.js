@@ -2,8 +2,6 @@ import Customer from './Customer';
 
 class Manager {
     constructor(customersAndBookings) {
-        this.loginName = 'manager';
-        this.password = 'overlook2021';
         this.allCustomers = this.getAllCustomers(customersAndBookings)
     }
 
