@@ -13,11 +13,13 @@
 const apiBase = 'http://localhost:3001/api/v1/';
 
 const getFetch = (endpoint) => fetch(`${apiBase}${endpoint}`).then(response => response.json());
-const cancelBooking = (endpoint) => fetch(`${apiBase}${endpoint}`, {
+const cancelBooking = (id) => fetch(`${apiBase}bookings/${id}`, {
     method: 'DELETE',
     headers: {
         "Content-Type": "application/json"
     }
-})
+});
+
+const postBooking = () => {}
 
 export { getFetch, cancelBooking };

@@ -21,14 +21,6 @@ describe('Manager', () => {
         expect(manager).to.be.a.instanceOf(Manager);
     });
 
-    it('Should have a login name', () => {
-        expect(manager.loginName).to.equal('manager');
-    });
-
-    it('Should have a password', () => {
-        expect(manager.password).to.equal('overlook2021');
-    });
-
     it('Should have all customers', () => {
         const allCustomers = customers.map(customer => new Customer({customer: customer, allBookings: bookings}))
         expect(manager.allCustomers).to.deep.equal(allCustomers);

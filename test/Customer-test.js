@@ -25,16 +25,6 @@ describe('Customer', () => {
         expect(customer.name).to.equal('Faustino Quitzon');
     });
 
-    it('Should have a login name', () => {
-        const customer = new Customer({customer: customers[1], allBookings: bookings});
-        expect(customer.loginName).to.equal('customer12');
-    });
-
-    it('Should have a password', () => {
-        const customer = new Customer({customer: customers[1], allBookings: bookings});
-        expect(customer.password).to.equal('overlook2021');
-    });
-
     it('Should have future bookings', () => {
         const customer = new Customer({customer: customers[0], allBookings: bookings});
         expect(customer.futureBookings).to.deep.equal([bookings[7]]);
