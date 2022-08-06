@@ -21,6 +21,7 @@ let customer;
 let manager;
 let hotel;
 
+const getTodaysDate = () => `${new Date().getFullYear()}/${new Date().getMonth()}/${new Date().getDate()}`;
 const hideOn = (elements) => elements.forEach(element => element.classList.add('hidden'));
 const hideOff = (elements) => elements.forEach(element => element.classList.remove('hidden'));
 const setError = (element) => {
@@ -28,7 +29,9 @@ const setError = (element) => {
     element.setAttribute('role', 'alert');
     element.setAttribute('tabindex', -1);
     element.focus();
+
 }
+
 
 const loginAsManager = () => {
     Promise.all([getFetch('customers'), getFetch('rooms'), getFetch('bookings')])
@@ -55,8 +58,22 @@ const loginAsCustomer = (loginNum) => {
 
 }
 
+const buildBookings = (bookingsAndElementID) => {
+    bookingsAndElementID.bookings.forEach(booking => {
+        const room = hotel.findRoom(booking.roomNumber);
+        document.querySelector(`#${bookingsAndElementID.elementID}`).innerHTML += (`
+            <button class="booking-detail-btn" id="bookingDetailBtn" type="button" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">
+                <p class="booking-info" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">${booking.date}</p>
+                <p class="booking-info" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Room Number: ${booking.roomNumber}</p>
+                <p class="booking-info" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Cost Per Night: $${room.costPerNight}</p>
+                <p class="screen-reader-only">Click for room info</p>
+            </button>
+        `);
+    });
+
+} 
+
 const loadCustomerDash = () => {
-    console.log(customer);
     dashboardSectionCustomer.innerHTML = (`
         <nav class="customer-dash-nav">
             <button class="book-room-btn" id="bookRoomBtn">Book a Room</button>
@@ -78,19 +95,6 @@ const loadCustomerDash = () => {
 
 }
 
-const buildBookings = (bookingsAndElementID) => {
-    bookingsAndElementID.bookings.forEach(booking => {
-        const room = hotel.findRoom(booking.roomNumber);
-        document.querySelector(`#${bookingsAndElementID.elementID}`).innerHTML += (`
-            <button class="booking-detail-btn" id="bookingDetailBtn data-bookingID=${booking.id}" data-roomNum="${booking.roomNumber}">
-                <p class="booking-info">${booking.date}</p>
-                <p class="booking-info">Room Number: ${booking.roomNumber}</p>
-                <p class="booking-info">Cost Per Night: $${room.costPerNight}</p>
-            </button>
-        `);
-    });
-} 
-
 window.addEventListener('load', () => {
     hideOff([loginSection]);
     loginSection.innerHTML = (`
@@ -98,17 +102,18 @@ window.addEventListener('load', () => {
         <p class="login-description" id="loginDescription">Please sign in.</p>
         <form>
             <div class="login-name-wrapper">
-                <label class="hidden" for="login-name">Login Name: </label>
+                <label class="screen-reader-only" for="login-name">Login Name: </label>
                 <input class="login-name-input" id="loginName" type="text" name="login-name" placeholder="Login Name">
             </div>
             <div class="password-wrapper">
-                <label class="hidden" for="password">Password: </label>
+                <label class="screen-reader-only" for="password">Password: </label>
                 <input class="password-input" id="password" type="password" name="password" placeholder="Password">
             </div>
             <input class="login-submit-btn" id="loginSubmitBtn" type="submit" value="Login"> 
         <form>
-    `)
-})
+    `);
+
+});
 
 loginSection.addEventListener('click', (event) => {
     if (event.target.id === 'loginSubmitBtn') {
@@ -130,3 +135,18 @@ loginSection.addEventListener('click', (event) => {
     }
 
 });
+
+const showSelectUpcomingBooking = () => {
+    
+}
+
+dashboardSectionCustomer.addEventListener('click', (event) => {
+    if (event.target.getAttribute('data-bookingID')) {
+        const currentRoom = hotel.findRoom(parseInt(event.target.getAttribute('data-roomNum')))
+        if (event.target.getAttribute('data-date') < getTodaysDate()) {
+            console.log(currentRoom);
+        } else if (event.target.getAttribute('data-date') >= getTodaysDate()){
+            console.log(currentRoom);
+        }
+    }
+})
