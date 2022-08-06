@@ -76,17 +76,23 @@ const refreshCustomerAndHotel = () => {
 }
 
 const buildBookings = (bookingsAndElementID) => {
-    bookingsAndElementID.bookings.forEach(booking => {
-        const room = hotel.findRoom(booking.roomNumber);
+    if (!bookingsAndElementID.bookings.length) {
         document.querySelector(`#${bookingsAndElementID.elementID}`).innerHTML += (`
-            <button class="booking-detail-btn" id="bookingDetailBtn" type="button" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">
-                <p class="booking-info" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">${booking.date}</p>
-                <p class="booking-info" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Room Number: ${booking.roomNumber}</p>
-                <p class="booking-info" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Cost Per Night: $${room.costPerNight}</p>
-                <p class="screen-reader-only">Click for room info</p>
-            </button>
+            <p class="booking-info">You don't have any bookings to show.</p>
         `);
-    });
+    } else {
+        bookingsAndElementID.bookings.forEach(booking => {
+            const room = hotel.findRoom(booking.roomNumber);
+            document.querySelector(`#${bookingsAndElementID.elementID}`).innerHTML += (`
+                <button class="booking-detail-btn" id="bookingDetailBtn" type="button" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">
+                    <p class="booking-info" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">${booking.date}</p>
+                    <p class="booking-info" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Room Number: ${booking.roomNumber}</p>
+                    <p class="booking-info" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Cost Per Night: $${room.costPerNight}</p>
+                    <p class="screen-reader-only">Click for room info</p>
+                </button>
+            `);
+        });
+    }
 
 } 
 
@@ -132,27 +138,6 @@ window.addEventListener('load', () => {
 
 });
 
-loginSection.addEventListener('click', (event) => {
-    if (event.target.id === 'loginSubmitBtn') {
-        event.preventDefault();
-        const loginName = document.querySelector('#loginName').value;
-        const password = document.querySelector('#password').value;
-        const loginDescription = document.querySelector('#loginDescription');
-        if (!loginName.length || !password.length) {
-            loginDescription.innerHTML = '<i class="fa-solid fa-x"></i> Please enter your login name and password.';
-            setError(loginDescription);
-        } else if (password === 'overlook2021' && loginName === 'manager') {
-            loginAsManager();
-        } else if (password === 'overlook2021' && loginName.includes('customer') && loginName.replace('customer', '') <= 50) {
-            loginAsCustomer(loginName.replace('customer', ''));
-        } else {
-            loginDescription.innerHTML = '<i class="fa-solid fa-x"></i> Invalid login credentials.';
-            setError(loginDescription);
-        }
-    }
-
-});
-
 const showSelectBooking = (bookingIDAndRoom) => {
     const selectedBooking = hotel.findBooking(bookingIDAndRoom.selectedBooking);
     const hasBidet = bookingIDAndRoom.selectedRoom.bidet ? 'This room has a bidet' : 'This room doesn\'t have a bidet';
@@ -187,16 +172,37 @@ const confirmCancel = (bookingID) => {
 
 const cancelBookingAndShowResponse = (bookingID) => {
     cancelBooking(`bookings/${bookingID}`)
-        .then(response => {
-            if (!response.ok) {
-                // error handeling here
-            } else {
-                refreshCustomerAndHotel();
-            }
-
-        });
+    .then(response => {
+        if (!response.ok) {
+            // error handeling here
+        } else {
+            refreshCustomerAndHotel();
+        }
+        
+    });
     
 }
+
+loginSection.addEventListener('click', (event) => {
+    if (event.target.id === 'loginSubmitBtn') {
+        event.preventDefault();
+        const loginName = document.querySelector('#loginName').value;
+        const password = document.querySelector('#password').value;
+        const loginDescription = document.querySelector('#loginDescription');
+        if (!loginName.length || !password.length) {
+            loginDescription.innerHTML = '<i class="fa-solid fa-x"></i> Please enter your login name and password.';
+            setError(loginDescription);
+        } else if (password === 'overlook2021' && loginName === 'manager') {
+            loginAsManager();
+        } else if (password === 'overlook2021' && loginName.includes('customer') && loginName.replace('customer', '') <= 50) {
+            loginAsCustomer(loginName.replace('customer', ''));
+        } else {
+            loginDescription.innerHTML = '<i class="fa-solid fa-x"></i> Invalid login credentials.';
+            setError(loginDescription);
+        }
+    }
+
+});
 
 dashboardSectionCustomer.addEventListener('click', (event) => {
     if (event.target.getAttribute('data-bookingID')) {
