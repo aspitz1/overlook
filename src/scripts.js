@@ -21,6 +21,7 @@ let customer;
 let manager;
 let hotel;
 
+const makeUpperCase = (string) => string.split(' ').map(word => word[0].toUpperCase() + word.substring(1)).join(' ');
 const getTodaysDate = () => `${new Date().getFullYear()}/${new Date().getMonth()}/${new Date().getDate()}`;
 const hideOn = (elements) => elements.forEach(element => element.classList.add('hidden'));
 const hideOff = (elements) => elements.forEach(element => element.classList.remove('hidden'));
@@ -136,17 +137,34 @@ loginSection.addEventListener('click', (event) => {
 
 });
 
-const showSelectUpcomingBooking = () => {
-    
+const showSelectUpcomingBooking = (bookingIDAndRoom) => {
+    // const selectedBooking = hotel.findBooking(bookingIDAndRoom.selectedBooking);
+    const hasBidet = bookingIDAndRoom.selectedRoom.bidet ? 'This room has a bidet' : 'This room doesn\'t have a bidet';
+    dashboardSectionCustomer.innerHTML = (`
+        <nav class="customer-dash-nav">
+            <button class="dash-btn" id="dashBtn">Dashboard</book>
+            <button class="book-room-btn" id="bookRoomBtn">Book a Room</button>
+        </nav>
+        <h1 class="room-description-heading">A Beautiful ${makeUpperCase(bookingIDAndRoom.selectedRoom.roomType)}</h1>
+        <p class="room-description">Cost Per Night: $${bookingIDAndRoom.selectedRoom.costPerNight}</p>
+        <ul class="room-description-list">
+            <li>${makeUpperCase(bookingIDAndRoom.selectedRoom.bedSize)} bed</li>
+            <li>Has ${bookingIDAndRoom.selectedRoom.numBeds} bed(s)</li>
+            <li>${hasBidet}</li>
+            <li>The room number is ${bookingIDAndRoom.selectedRoom.number}</li>
+        </ul>
+    `);
 }
 
 dashboardSectionCustomer.addEventListener('click', (event) => {
     if (event.target.getAttribute('data-bookingID')) {
-        const currentRoom = hotel.findRoom(parseInt(event.target.getAttribute('data-roomNum')))
+        const selectedRoom = hotel.findRoom(parseInt(event.target.getAttribute('data-roomNum')));
         if (event.target.getAttribute('data-date') < getTodaysDate()) {
-            console.log(currentRoom);
+            console.log(selectedRoom);
         } else if (event.target.getAttribute('data-date') >= getTodaysDate()){
-            console.log(currentRoom);
-        }
+            showSelectUpcomingBooking({selectedBooking: event.target.getAttribute('data-bookingID'), selectedRoom: selectedRoom});
+        } 
+    } else if (event.target.id === 'dashBtn') {
+            loadCustomerDash();
     }
 })
