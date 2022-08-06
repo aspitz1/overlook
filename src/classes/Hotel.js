@@ -23,10 +23,6 @@ class Hotel {
             unavailibleRooms: this.allRooms.filter(room => unavailibleRoomNums.includes(room.number))};
     }
 
-    makeNewRoomID() {
-        return this.allBookings[this.allBookings.length - 1]
-    }
-
     makeBookingObj(bookingData) {
         return {
             userID: bookingData.customer.id,
@@ -37,6 +33,14 @@ class Hotel {
 
     filterRoomsByType(roomsAndRoomType) {
         return roomsAndRoomType.rooms.filter(room => room.roomType === roomsAndRoomType.roomType);
+    }
+
+    findRoom(roomNum) {
+        return this.allRooms.find(room => room.number === roomNum);
+    }
+
+    findBooking(bookingID) {
+        return this.allBookings.find(booking => booking.id === bookingID);
     }
     
 }

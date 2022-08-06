@@ -52,4 +52,14 @@ describe('Hotel', () => {
         expect(filteredRooms).to.deep.equal([rooms[2], rooms[3], rooms[4]]);
     });
 
+    it('Should find a room by its number', () => {
+        const room = hotel.findRoom(23);
+        expect(room).to.deep.equal(rooms[1]);
+    });
+
+    it('Should find a booking', () => {
+        const foundBooking = hotel.findBooking('5fwrgu4i7k55hl6wn');
+        expect(foundBooking).to.deep.equal(bookings[3]);
+    });
+
 });
