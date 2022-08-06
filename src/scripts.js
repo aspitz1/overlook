@@ -9,7 +9,7 @@ import Customer from './classes/Customer';
 import Manager from './classes/Manager';
 import Hotel from './classes/Hotel';
 
-import getFetch from './api-calls';
+import { getFetch, cancelBooking } from './api-calls';
 
 const loginSection = document.querySelector('#loginSection');
 const dashboardSectionCustomer = document.querySelector('#dashboardSectionCustomer');
@@ -59,6 +59,22 @@ const loginAsCustomer = (loginNum) => {
 
 }
 
+const refreshCustomerAndHotel = () => {
+    Promise.all([getFetch(`customers/${customer.id}`), getFetch('rooms'), getFetch('bookings')]) 
+        .then(data => {
+            customer = new Customer({customer: data[0], allBookings: data[2].bookings});
+            hotel = new Hotel({allRooms: data[1].rooms, allBookings: data[2].bookings});
+            dashboardSectionCustomer.innerHTML = (`
+                <nav class="customer-dash-nav">
+                    <button class="dash-btn" id="dashBtn">Dashboard</book>
+                    <button class="book-room-btn" id="bookRoomBtn">Book a Room</button>
+                </nav>
+                <h1 class="" tabindex="-1">Your booking has been canceled</h1>
+            `)      
+        })
+        .catch(console.error);
+}
+
 const buildBookings = (bookingsAndElementID) => {
     bookingsAndElementID.bookings.forEach(booking => {
         const room = hotel.findRoom(booking.roomNumber);
@@ -77,9 +93,9 @@ const buildBookings = (bookingsAndElementID) => {
 const loadCustomerDash = () => {
     dashboardSectionCustomer.innerHTML = (`
         <nav class="customer-dash-nav">
-            <button class="book-room-btn" id="bookRoomBtn">Book a Room</button>
+            <button class="book-room-btn" id="bookRoomBtn"><i class="fa-solid fa-bell-concierge"></i> Book a Room</button>
         </nav>
-        <h1 class="customer-dash-heading">Welcome back ${customer.name}!</h1>
+        <h1 class="customer-dash-heading" tabindex="-1">Welcome back ${customer.name}!</h1>
         <section class="upcoming-bookings-section" id="upcomingBookingSection">
             <h2 class="customer-dash-section-heading">Upcoming Bookings</h2>
         </section>
@@ -137,15 +153,15 @@ loginSection.addEventListener('click', (event) => {
 
 });
 
-const showSelectUpcomingBooking = (bookingIDAndRoom) => {
-    // const selectedBooking = hotel.findBooking(bookingIDAndRoom.selectedBooking);
+const showSelectBooking = (bookingIDAndRoom) => {
+    const selectedBooking = hotel.findBooking(bookingIDAndRoom.selectedBooking);
     const hasBidet = bookingIDAndRoom.selectedRoom.bidet ? 'This room has a bidet' : 'This room doesn\'t have a bidet';
     dashboardSectionCustomer.innerHTML = (`
         <nav class="customer-dash-nav">
-            <button class="dash-btn" id="dashBtn">Dashboard</book>
-            <button class="book-room-btn" id="bookRoomBtn">Book a Room</button>
+            <button class="dash-btn" id="dashBtn"><i class="fa-solid fa-bed"></i> Dashboard</book>
+            <button class="book-room-btn" id="bookRoomBtn"><i class="fa-solid fa-bell-concierge"></i> Book a Room</button>
         </nav>
-        <h1 class="room-description-heading">A Beautiful ${makeUpperCase(bookingIDAndRoom.selectedRoom.roomType)}</h1>
+        <h1 class="room-description-heading" tabindex="-1">A Beautiful ${makeUpperCase(bookingIDAndRoom.selectedRoom.roomType)}</h1>
         <p class="room-description">Cost Per Night: $${bookingIDAndRoom.selectedRoom.costPerNight}</p>
         <ul class="room-description-list">
             <li>${makeUpperCase(bookingIDAndRoom.selectedRoom.bedSize)} bed</li>
@@ -154,17 +170,49 @@ const showSelectUpcomingBooking = (bookingIDAndRoom) => {
             <li>The room number is ${bookingIDAndRoom.selectedRoom.number}</li>
         </ul>
     `);
+    if (selectedBooking.date >= getTodaysDate()) {
+        dashboardSectionCustomer.innerHTML += `<button class="cancel-btn" id="cancelBtn" data-selectedBookingID="${selectedBooking.id}"><i class="fa-solid fa-rectangle-xmark"></i> Cancel Booking</button>`;
+    }
+}
+
+const confirmCancel = (bookingID) => {
+    document.getElementById('cancelBtn').remove();
+    dashboardSectionCustomer.innerHTML += (`
+        <form class="confirm-cancel-form" tabindex="-1">
+            <lable class="confirm-cancel-label" for="confirm-cancel">Are you sure you want too cancel?</label>
+            <input class="confirm-cancel-btn" id="confirmCancelBtn" type="submit" name="confirm-cancel" value="Confirm" data-selectedBookingID="${bookingID}">
+        </form>
+    `);
+}
+
+const cancelBookingAndShowResponse = (bookingID) => {
+    cancelBooking(`bookings/${bookingID}`)
+        .then(response => {
+            if (!response.ok) {
+                // error handeling here
+            } else {
+                refreshCustomerAndHotel();
+            }
+
+        });
+    
 }
 
 dashboardSectionCustomer.addEventListener('click', (event) => {
     if (event.target.getAttribute('data-bookingID')) {
         const selectedRoom = hotel.findRoom(parseInt(event.target.getAttribute('data-roomNum')));
         if (event.target.getAttribute('data-date') < getTodaysDate()) {
-            console.log(selectedRoom);
+            showSelectBooking({selectedBooking: event.target.getAttribute('data-bookingID'), selectedRoom: selectedRoom})
         } else if (event.target.getAttribute('data-date') >= getTodaysDate()){
-            showSelectUpcomingBooking({selectedBooking: event.target.getAttribute('data-bookingID'), selectedRoom: selectedRoom});
+            showSelectBooking({selectedBooking: event.target.getAttribute('data-bookingID'), selectedRoom: selectedRoom});
         } 
     } else if (event.target.id === 'dashBtn') {
             loadCustomerDash();
+    } else if (event.target.id === 'cancelBtn') {
+        confirmCancel(event.target.getAttribute('data-selectedBookingID'));
+    } else if (event.target.id === 'confirmCancelBtn') {
+        event.preventDefault();
+        cancelBookingAndShowResponse(event.target.getAttribute('data-selectedBookingID'));
     }
-})
+
+});
