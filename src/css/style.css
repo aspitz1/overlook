@@ -30,11 +30,11 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 80vh;
-  height: 80vh;
+  width: 90vh;
+  height: 90vh;
   background-image: url(/src/images/login-background.png);
   background-repeat: no-repeat;
-  background-size: 80vh;
+  background-size: 90vh;
 }
 
 .login-wrapper {
@@ -42,10 +42,9 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px;
   margin-bottom: 25vh;
-  width: 30vh;
-  height: 30vh;
+  width: 50vh;
+  height: 50vh;
   background-color: #F1EFE9;
   opacity: 2;
   border: 0.2rem solid #232323;
@@ -60,10 +59,30 @@ body {
   padding-bottom: 0.75rem;
 }
 
+.login-name-input,
+.password-input {
+  margin-bottom: 0.6rem;
+  padding: 10px;
+  border: 0.07rem solid #232323;
+}
+
 .hidden {
   display: none;
   width: 0px;
   height: 0px;
+}
+
+.login-submit-btn {
+  width: 100%;
+  padding: 4px;
+  font-weight: bolder;
+  border: 0.07rem solid #232323;
+  background: none;
+}
+.login-submit-btn:hover {
+  cursor: pointer;
+  background: #A09D00;
+  border: 0.07rem solid #A09D00;
 }
 
 /*# sourceMappingURL=style.css.map */

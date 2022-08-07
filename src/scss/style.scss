@@ -2,6 +2,8 @@ $black: #232323;
 $grey-white: #F1EFE9;
 $blue: #34526E;
 $woods: #A09D00;
+$thick-border: .2rem solid $black;
+$thin-border: .07rem solid $black;
 
 @mixin flex($flexDirection: column, $alignItems: center, $justifyContent: center) {
     display: flex;
@@ -37,19 +39,18 @@ body {
 
 .login-section {
     @include flex;
-    width: 80vh;
-    height: 80vh;
+    width: 90vh;
+    height: 90vh;
     background-image: url(/src/images/login-background.png);
     background-repeat: no-repeat;
-    background-size: 80vh; 
+    background-size: 90vh; 
 }
 
 .login-wrapper {
     @include flex;
-    padding: 20px;
     margin-bottom: 25vh;
-    width: 30vh;
-    height: 30vh;
+    width: 50vh;
+    height: 50vh;
     background-color: $grey-white;
     opacity: 2;
     border: .2rem solid $black;
@@ -64,8 +65,28 @@ body {
     padding-bottom: .75rem;
 }
 
+.login-name-input,
+.password-input {
+    margin-bottom: .6rem;
+    padding: 10px;
+    border: $thin-border;
+}
+
 .hidden {
     display: none;
     width: 0px;
     height: 0px;
+}
+
+.login-submit-btn {
+    width: 100%;
+    padding: 4px;
+    font-weight: bolder;
+    border: $thin-border;
+    background: none;
+    &:hover {
+        cursor: pointer;
+        background: $woods;
+        border: .07rem solid $woods;
+    }
 }
