@@ -194,8 +194,13 @@ const refreshCustomerAndHotel = (statusMessege) => {
     }
 
     const confirmCancelManager = (bookingID) => {
-        document.getElementById(bookingID).setAttribute('data-confirm', 'true');
+        document.getElementById(bookingID).setAttribute('data-confirmCancel', 'true');
         document.getElementById(bookingID).innerText = 'Confirm Cancelation';
+    }
+
+    const confirmBookingManager = (elementID) => {
+        document.getElementById(elementID).setAttribute('data-confirmBooking', 'true');
+        document.getElementById(elementID).innerText = 'Confirm Booking';
     }
 
     const makeBookingDashManager = () => {
@@ -211,10 +216,10 @@ const refreshCustomerAndHotel = (statusMessege) => {
                 <h1 class="heading">Let's make your customers booking.</h1>
                 <form class="form" id="roomPickerManager">
                     <label class="search-label" for="stay-date">Pick your stay date: </label>
-                    <input class="search-intput-calander" type="date" id="datePicker" name="stay-date" value="${getTodaysDate().split('/').join('-')}" min="${getTodaysDate().split('/').join('-')}" max="2024-01-01">
+                    <input class="search-intput-calander" type="date" id="datePickerManager" name="stay-date" value="${getTodaysDate().split('/').join('-')}" min="${getTodaysDate().split('/').join('-')}" max="2024-01-01">
                     <input class="search-button" id="roomPickerBtnManager" type="submit" value="Find Rooms">
                 </form>
-                <section class="manager-display-availible-rooms" id="managerDisplayAvailibleRooms"></section>
+                <section class="manager-display-availible-rooms" id="availibleRoomSectionManager"></section>
             </section>
         `)
     } 
@@ -222,11 +227,9 @@ const refreshCustomerAndHotel = (statusMessege) => {
     const displayAvailibleRoomsManager = (date) => {
         const availibleRooms = hotel.getAvailibleAndUnavailibleRooms(date).availibleRooms
         if (!availibleRooms.length) {
-            document.getElementById('managerDisplayAvailibleRooms').innerHTML = ('<h1 class="heading">We\'re so sorry. Looks like we are all booked up for this night.</h1>');
+            document.getElementById('availibleRoomSectionManager').innerHTML = ('<h1 class="heading">We\'re so sorry. Looks like we are all booked up for this night.</h1>');
         } else {
-            document.getElementById('managerDisplayAvailibleRooms').innerHTML = (`
-
-            `);
+            displayAvailibleUnfilteredRooms({rooms: availibleRooms, date: date, element: document.getElementById('availibleRoomSectionManager')});
         }
     }
 
@@ -338,41 +341,25 @@ const bookRoomCustomer = () => {
     `)
 }
 
-const displayAvailibleRooms = (date) => {
-    bookRoomSectionCustomer.innerHTML = (`
+const displayAvailibleRooms = (dateAndElement) => {
+    dateAndElement.element.innerHTML = (`
     <nav class="nav">
         <button class="nav-btn" id="dashBtn"><i class="fa-solid fa-bed"></i> Dashboard</book>
         <button class="nav-btn" id="backToSelectDate">Back</button>
     </nav>
     `);
-    const availibleRooms = hotel.getAvailibleAndUnavailibleRooms(date).availibleRooms;
+    const availibleRooms = hotel.getAvailibleAndUnavailibleRooms(dateAndElement.date).availibleRooms;
     if (!availibleRooms.length) {
-        bookRoomSectionCustomer.innerHTML += (`
-        <h1 class="heading">There are no availible rooms for ${makeDateDisplay(date)}.</h1>
+        dateAndElement.element.innerHTML += (`
+        <h1 class="heading">There are no availible rooms for ${makeDateDisplay(dateAndElement.date)}.</h1>
         <p class="information">We're so sorry! We are looking forward to having you, can you come another night?</p>
         <button class="search-btn" id="returnToPickerBtn">Pick another Date</button>
         `)
     } else {
-        bookRoomSectionCustomer.innerHTML += (`
-            <h1 class="heading" id="roomPickerHeading">Here are all availible rooms for ${makeDateDisplay(date)}.</h1>
-            <form class="form" id="filterRooms">
-                <label class="search-label" for="room-type">Filter rooms by type: </lable>
-                <select class="room-type-select" id="filterRoomChoice" name="room-type">
-                    <option class="room-type-option" value="">All Availible</option>
-                    <option class="room-type-option" value="residential suite">Residential Suite</option>
-                    <option class="room-type-option" value="suite">Suite</option>
-                    <option class="room-type-option" value="single room">Single Room</option>
-                    <option class="room-type-option" value="junior suite">Junior Suite</option>
-                </select> 
-                <input class="search-btn" id="roomFilterBtn" type="button" value="Filter" data-date="${date}">
-            </form>
-            <section class="availible-room-section" id="availibleRoomSection"></section>
-            `)
-            
-            displayRoomsAndDetails({rooms: availibleRooms, date: date, element: 'availibleRoomSection'})
-        }
-        
+        displayAvailibleUnfilteredRooms({rooms: availibleRooms, date: dateAndElement.date, element: dateAndElement.element});
     }
+        
+}
     
     const displayFilteredRoomDetails = (dateAndRoomType) => {
         const availibleRooms = hotel.getAvailibleAndUnavailibleRooms(dateAndRoomType.date).availibleRooms;
@@ -391,6 +378,26 @@ const displayAvailibleRooms = (date) => {
     
 }
 
+const displayAvailibleUnfilteredRooms = (roomsDateAndElement) => {
+    roomsDateAndElement.element.innerHTML += (`
+            <h1 class="heading" id="roomPickerHeading">Here are all availible rooms for ${makeDateDisplay(roomsDateAndElement.date)}.</h1>
+            <form class="form" id="filterRooms">
+                <label class="search-label" for="room-type">Filter rooms by type: </lable>
+                <select class="room-type-select" id="filterRoomChoice" name="room-type">
+                    <option class="room-type-option" value="">All Availible</option>
+                    <option class="room-type-option" value="residential suite">Residential Suite</option>
+                    <option class="room-type-option" value="suite">Suite</option>
+                    <option class="room-type-option" value="single room">Single Room</option>
+                    <option class="room-type-option" value="junior suite">Junior Suite</option>
+                </select> 
+                <input class="search-btn" id="roomFilterBtn" type="button" value="Filter" data-date="${roomsDateAndElement.date}">
+            </form>
+            <section class="availible-room-section" id="availibleRoomSection"></section>
+            `)   
+    displayRoomsAndDetails({rooms: roomsDateAndElement.rooms, date: roomsDateAndElement.date, element: 'availibleRoomSection'})
+        
+}
+
 const displayRoomsAndDetails = (roomsDateAndElementID) => {
     document.getElementById(roomsDateAndElementID.element).innerHTML = '';
     roomsDateAndElementID.rooms.forEach(room => {
@@ -405,7 +412,7 @@ const displayRoomsAndDetails = (roomsDateAndElementID) => {
                 <li>${hasBidet}</li>
                 <li>$${room.costPerNight} per night</li> 
             </ul>
-            <button class="search-btn" id="selectRoomBtn" data-date="${roomsDateAndElementID.date}" data-roomNumber="${room.number}">Book</button>
+            <button class="search-btn" id="selectRoomBtn${room.number}" data-date="${roomsDateAndElementID.date}" data-roomNumber="${room.number}">Book</button>
         </article>
         `);
     })
@@ -530,7 +537,7 @@ dashboardSectionCustomer.addEventListener('click', (event) => {
             showSelectBooking({selectedBooking: event.target.getAttribute('data-bookingID'), selectedRoom: selectedRoom});
         } 
     } else if (event.target.id === 'dashBtn') {
-            displayCustomerDash();
+        displayCustomerDash();
     } else if (event.target.id === 'cancelBtn') {
         confirmCancelCustomer(event.target.getAttribute('data-selectedBookingID'));
     } else if (event.target.id === 'confirmCancelBtn') {
@@ -546,7 +553,7 @@ dashboardSectionCustomer.addEventListener('click', (event) => {
 bookRoomSectionCustomer.addEventListener('click', (event) => {
     if (event.target.id === 'roomPickerBtn') {
         event.preventDefault();
-        displayAvailibleRooms(document.getElementById('datePicker').value.split('-').join('/'));
+        displayAvailibleRooms({ date: document.getElementById('datePicker').value.split('-').join('/'), element: bookRoomSectionCustomer});
     } else if (event.target.id === 'roomFilterBtn') {
         event.preventDefault();
         displayFilteredRoomDetails({roomType: document.getElementById('filterRoomChoice').value, date: event.target.getAttribute('data-date')});
@@ -556,11 +563,10 @@ bookRoomSectionCustomer.addEventListener('click', (event) => {
         displayCustomerDash();
     } else if (event.target.id === 'backToSelectDate') {
         bookRoomCustomer();
-    } else if (event.target.id === 'selectRoomBtn') {
+    } else if (event.target.id.includes('selectRoomBtn')) {
         displayConfirmBooking({date: event.target.getAttribute('data-date'), roomNumber: event.target.getAttribute('data-roomNumber')})
     } else if (event.target.id === 'backToSelectRoom') {
-        console.log(event.target.getAttribute('data-date'));
-        displayAvailibleRooms(event.target.getAttribute('data-date'));
+        displayAvailibleRooms({date: event.target.getAttribute('data-date'), element: bookRoomSectionCustomer});
     } else if (event.target.id === 'confirmBookingBtn') {
         confirmBooking({date: event.target.getAttribute('data-date'), roomNumber: event.target.getAttribute('data-roomNumber')});
     }
@@ -574,7 +580,7 @@ dashboardSectionManager.addEventListener('click', (event) => {
     } else if (event.target.id === 'customerSearchBtn') {
         const customerName = makeUpperCase(document.getElementById('customerSearchInput').value)
         displayCustomer(manager.findACustomer(customerName));
-    } else if (event.target.getAttribute('data-confirm')) {
+    } else if (event.target.getAttribute('data-confirmCancel')) {
         const bookingID = event.target.getAttribute('data-bookingID');
         cancelBooking(bookingID);
         refreshManagerHoterAndCustomers('canceled');
@@ -591,5 +597,17 @@ bookRoomSectionManager.addEventListener('click', (event) => {
         displayManagerDash();
     } else if (event.target.id === 'managerFindCustomerBtn') {
         displayCustomerSearch()
-    }
+    } else if (event.target.id === 'roomPickerBtnManager') {
+        event.preventDefault();
+        displayAvailibleRoomsManager(document.getElementById('datePickerManager').value.split('-').join('/'));
+    } else if (event.target.id === 'roomFilterBtn') {
+        event.preventDefault();
+        displayFilteredRoomDetails({date: event.target.getAttribute('data-date'), roomType: document.getElementById('filterRoomChoice').value});
+    } else if (event.target.getAttribute('data-confirmBooking')) {
+        event.preventDefault();
+        console.log(event.target)
+    } else if (event.target.id.includes('selectRoomBtn')) {
+        event.preventDefault();
+        confirmBookingManager(event.target.id)
+    } 
 });
