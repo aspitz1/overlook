@@ -25,9 +25,9 @@ class Hotel {
 
     makeBookingObj(bookingData) {
         return {
-            userID: bookingData.customer.id,
-            date: bookingData.date,
-            roomNumber: bookingData.room.number
+            "userID": bookingData.id,
+            "date": bookingData.date,
+            "roomNumber": parseInt(bookingData.roomNumber)
         }
     }
 

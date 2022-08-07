@@ -10,6 +10,11 @@ class Manager {
             .map(customer => new Customer({customer: customer, allBookings: allCustomersAndAllBookings.allBookings}))
     }
 
+    findACustomer(customerName) {
+        const customer = this.allCustomers.find(customer => customer.name === customerName);
+        return customer ? customer : 'There was no customer found with this name.';
+    }
+
     getPercentAvailibleRooms(allRoomsAllBookingsAndDate) {
         const unavailibleRoomNumbers = allRoomsAllBookingsAndDate.allBookings.filter(booking => booking.date === allRoomsAllBookingsAndDate.date)
             .map(booking => booking.roomNumber);
