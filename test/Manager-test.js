@@ -26,6 +26,17 @@ describe('Manager', () => {
         expect(manager.allCustomers).to.deep.equal(allCustomers);
     });
 
+    it('Should find a customer', () => {
+        const allCustomers = customers.map(customer => new Customer({customer: customer, allBookings: bookings}))
+        const customer = manager.findACustomer('Kari Keeling');
+        expect(customer).to.deep.equal(allCustomers[1]);
+    });
+
+    it('Should return message if there is no customer', () => {
+        const customer = manager.findACustomer('Anna Spitz');
+        expect(customer).to.equal('There was no customer found with this name.');
+    });
+
     it('Should give percentage of availible rooms rounded down to nearest whole', () => {
         const percentAvailibleRooms = manager.getPercentAvailibleRooms({allRooms: rooms, allBookings: bookings, date: "2023/02/23"});
         expect(percentAvailibleRooms).to.equal('14%');

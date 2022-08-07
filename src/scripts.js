@@ -32,7 +32,7 @@ const bookedMessege = 'Your room has been booked! We are looking forward to your
 
 /* UTILITY FUNCTIONS */
 
-const makeUpperCase = (string) => string.split(' ').map(word => word[0].toUpperCase() + word.substring(1)).join(' ');
+const makeUpperCase = (string) => string.split(' ').map(word => word[0].toUpperCase() + word.substring(1).toLowerCase()).join(' ');
 const getTodaysDate = () => {
     let year = new Date().getFullYear().toString();
     let month = (new Date().getMonth() + 1).toString();
@@ -111,6 +111,68 @@ const refreshCustomerAndHotel = (statusMessege) => {
             
     } 
 
+    const displayCustomerSearch = () => {
+        dashboardSectionManager.innerHTML = (`
+            <nav class="manager-dash-nav">
+                <button class="manager-dash-btn" id="managerDashBtn"><i class="fa-solid fa-house-chimney"></i> Dashboard</button>
+            </nav>
+            <h1 class="search-customer-heading">Let's get to work!</h1>
+            <section class="search-customer-wrapper">
+                <label class="customer-search-label" for="customer-search">Search for customer by name: </label>
+                <input class="customer-search-input" id="customerSearchInput" type="test" name="customer-search">
+                <input class="customer-search-btn" id="customerSearchBtn" type="button" value="Find Customer">
+            </section>
+        `);
+    }
+
+    const displayCustomer = (customerData) => {
+        dashboardSectionManager.innerHTML = (`
+            <nav class="manager-dash-nav">
+                <button class="manager-dash-btn" id="managerDashBtn"><i class="fa-solid fa-house-chimney"></i> Dashboard</button>
+                <button class="book-room-btn" id="managerBookRoomBtn"><i class="fa-solid fa-bell-concierge"></i> Find a Customer</button>
+            </nav>
+        `);
+        if (customerData.name) {
+            customer = customerData;
+            dashboardSectionManager.innerHTML += (`
+                <h1 class="customer-search-result-heading">Here is ${customerData.name}'s information.</h1>
+                <p>ID: ${customer.id}</p>
+                <p>Total Spent: ${customer.returnTotalSpent(hotel.allRooms)}</p>
+                <section class="future-bookings-manager" id="futureBookingsManager">
+                    <h2 class="booking-heading">Future Bookings</h2>
+                </section>
+                <section class="past-bookings-manager" id="pastBookingsManager">
+                    <h2 class="booking-heading">Past Bookings</h2>
+                </section>
+            `);
+
+            customerData.futureBookings.forEach(booking => {
+                document.getElementById('futureBookingsManager').innerHTML += (`
+                    <article class="customer-future-bookings">
+                        <p>ID: ${booking.id}</p>
+                        <p>Date: ${makeDateDisplay(booking.date)}</p>
+                        <p>Room Number: ${booking.roomNumber}</p>
+                    </article>
+                    <button class="cancel-btn-manager" id="cancelButtonManager">Cancel Booking</button>
+                `);
+            });
+            
+            customerData.futureBookings.forEach(booking => {
+                document.getElementById('pastBookingsManager').innerHTML += (`
+                    <article class="customer-past-bookings">
+                        <p>ID: ${booking.id}</p>
+                        <p>Date: ${makeDateDisplay(booking.date)}</p>
+                        <p>Room Number: ${booking.roomNumber}</p>
+                    </article>
+                `);
+            }); 
+        } else {
+            dashboardSectionManager.innerHTML += (`
+                <h1 class="customer-search-result-heading">${customerData}<h1>
+            `);
+        }
+    }
+
     const displayManagerDash = () => {
         hideOff([dashboardSectionManager]);
         hideOn([loginSection, bookRoomSectionManager]);
@@ -118,7 +180,7 @@ const refreshCustomerAndHotel = (statusMessege) => {
             <nav class="manager-dash-nav">
                 <button class="book-room-btn" id="managerBookRoomBtn"><i class="fa-solid fa-bell-concierge"></i> Find a Customer</button>
             </nav>
-            <h1 class="customer-dash-heading">Welcome, thanks you for being here!</h1>
+            <h1 class="customer-dash-heading">Welcome, thanks for being here!</h1>
             <section class="daily-stats-section" id="dailyStatsSection">
                 <h2 class="stats-heading">Here are today's stats.</h2>
                 <p class="stats">There are ${hotel.getAvailibleAndUnavailibleRooms(getTodaysDate()).availibleRooms.length} availible rooms.</p>
@@ -129,8 +191,6 @@ const refreshCustomerAndHotel = (statusMessege) => {
     }
         
     const displayCustomerDash = () => {
-        hideOff([dashboardSectionCustomer]);
-        hideOn([loginSection, bookRoomSectionCustomer]);
         dashboardSectionCustomer.innerHTML = (`
             <nav class="customer-dash-nav">
                 <button class="book-room-btn" id="bookRoomBtn"><i class="fa-solid fa-bell-concierge"></i> Book a Room</button>
@@ -346,6 +406,8 @@ const loginAsManager = () => {
 }
 
 const loginAsCustomer = (loginNum) => {
+    hideOff([dashboardSectionCustomer]);
+    hideOn([loginSection]);
     Promise.all([getFetch(`customers/${loginNum}`), getFetch('rooms'), getFetch('bookings')])
         .then(data => {
             customer = new Customer({customer: data[0], allBookings: data[2].bookings});
@@ -432,6 +494,8 @@ bookRoomSectionCustomer.addEventListener('click', (event) => {
         event.preventDefault();
         displayFilteredRoomDetails({roomType: document.getElementById('filterRoomChoice').value, date: event.target.getAttribute('data-date')});
     } else if (event.target.id === 'dashBtn') {
+        hideOff([dashboardSectionCustomer]);
+        hideOn([loginSection, bookRoomSectionCustomer]);
         displayCustomerDash();
     } else if (event.target.id === 'backToSelectDate') {
         bookRoomCustomer();
@@ -443,4 +507,16 @@ bookRoomSectionCustomer.addEventListener('click', (event) => {
     } else if (event.target.id === 'confirmBookingBtn') {
         confirmBooking({date: event.target.getAttribute('data-date'), roomNumber: event.target.getAttribute('data-roomNumber')});
     }
+});
+
+dashboardSectionManager.addEventListener('click', (event) => {
+    if (event.target.id === 'managerBookRoomBtn') {
+        displayCustomerSearch()
+    } else if (event.target.id === 'managerDashBtn') {
+        displayManagerDash();
+    } else if (event.target.id === 'customerSearchBtn') {
+        const customerName = makeUpperCase(document.getElementById('customerSearchInput').value)
+        displayCustomer(manager.findACustomer(customerName));
+    }
+
 });
