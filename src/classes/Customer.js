@@ -7,10 +7,19 @@ class Customer {
     }
 
     findFutureAndPastBookings(allBookings) {
-        const todaysDate = `${new Date().getFullYear()}/${new Date().getMonth()}/${new Date().getDate()}`;
+        const getTodaysDate = () => {
+            let year = new Date().getFullYear().toString();
+            let month = (new Date().getMonth() + 1).toString();
+            let date = new Date().getDate().toString();
+            month = month.length === 1 ? 0 + month : month;
+            date = date.length === 1 ? 0 + date : date;
+
+            return `${year}/${month}/${date}`;
+        }
+        
         return {
-            futureBookings: allBookings.filter(booking => booking.date >= todaysDate && booking.userID === this.id),
-            pastBookings: allBookings.filter(booking => booking.date < todaysDate && booking.userID === this.id)
+            futureBookings: allBookings.filter(booking => booking.date >= getTodaysDate() && booking.userID === this.id),
+            pastBookings: allBookings.filter(booking => booking.date < getTodaysDate() && booking.userID === this.id)
         };
     }
 

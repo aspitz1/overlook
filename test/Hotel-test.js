@@ -39,7 +39,7 @@ describe('Hotel', () => {
     });
 
     it('Should make a Booking', () => {
-        const newBooking = hotel.makeBookingObj({room: rooms[1], customer: customers[1], date: '2023/02/23'});
+        const newBooking = hotel.makeBookingObj({roomNumber: rooms[1].number, id: customers[1].id, date: '2023/02/23'});
         expect(newBooking).to.deep.equal({
             userID: 12,
             date: '2023/02/23',

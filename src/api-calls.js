@@ -20,6 +20,18 @@ const cancelBooking = (id) => fetch(`${apiBase}bookings/${id}`, {
     }
 });
 
-const postBooking = () => {}
+const postBooking = (booking) => fetch(`${apiBase}bookings`, {
+    method: 'POST',
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify(booking)
+})
+.then(response => {
+    if (!response.ok) {
+        throw 'Sorry, something went wrong. Looks like we where unable to make your booking.'
+    }
+    return response.json()
+})
 
-export { getFetch, cancelBooking };
+export { getFetch, cancelBooking, postBooking };
