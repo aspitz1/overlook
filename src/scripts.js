@@ -142,6 +142,7 @@ const displayCustomerSearch = () => {
         </section>
         <p class="information hidden" id="invalidName"><i class="fa-solid fa-x"></i> This isn't a valid name.</p>
     `);
+
 }
 
 const displayCustomer = (customerData) => {
@@ -154,8 +155,19 @@ const displayCustomer = (customerData) => {
 
     if (customerData.name) {
         customer = customerData;
+        displayCustomerInfoManager();
+        buildFutureCustomerBookingsManager();
+        buildPastCustomerBookingsManager();
+    } else {
         dashboardSectionManager.innerHTML += (`
-            <h1 class="heading">Here is ${customerData.name}'s information.</h1>
+            <h1 class="heading">${customerData}<h1>
+        `);
+    }
+}
+
+const displayCustomerInfoManager = () => {
+    dashboardSectionManager.innerHTML += (`
+            <h1 class="heading">Here is ${customer.name}'s information.</h1>
             <p class="information">ID: ${customer.id}</p>
             <p class="information">Total Spent: ${customer.returnTotalSpent(hotel.allRooms)}</p>
             <button class="search-btn" id="makeBookingBtnManager">Make Booking</button>
@@ -167,7 +179,10 @@ const displayCustomer = (customerData) => {
             </section>
         `);
 
-        customerData.futureBookings.forEach(booking => {
+}
+
+const buildFutureCustomerBookingsManager =() => {
+    customer.futureBookings.forEach(booking => {
             document.getElementById('futureBookingsManager').innerHTML += (`
                 <article class="customer-bookings-article" id="a${booking.id}">
                     <p class="information">ID: ${booking.id}</p>
@@ -177,8 +192,11 @@ const displayCustomer = (customerData) => {
                 </article>
             `);
         });
-        
-        customerData.futureBookings.forEach(booking => {
+
+}
+
+const buildPastCustomerBookingsManager = () => {
+     customer.futureBookings.forEach(booking => {
             document.getElementById('pastBookingsManager').innerHTML += (`
                 <article class="customer-booking-article">
                     <p class="information">ID: ${booking.id}</p>
@@ -187,21 +205,19 @@ const displayCustomer = (customerData) => {
                 </article>
             `);
         }); 
-    } else {
-        dashboardSectionManager.innerHTML += (`
-            <h1 class="heading">${customerData}<h1>
-        `);
-    }
+
 }
 
 const confirmCancelManager = (bookingID) => {
     document.getElementById(bookingID).setAttribute('data-confirmCancel', 'true');
     document.getElementById(bookingID).innerText = 'Confirm Cancelation';
+
 }
 
 const confirmBookingManager = (elementID) => {
     document.getElementById(elementID).setAttribute('data-confirmBooking', 'true');
     document.getElementById(elementID).innerText = 'Confirm Booking';
+
 }
 
 const makeBookingDashManager = () => {
@@ -223,6 +239,7 @@ const makeBookingDashManager = () => {
             <section class="manager-display-availible-rooms" id="availibleRoomSectionManager"></section>
         </section>
     `)
+
 } 
 
 const displayAvailibleRoomsManager = (date) => {
@@ -232,6 +249,7 @@ const displayAvailibleRoomsManager = (date) => {
     } else {
         displayAvailibleUnfilteredRooms({rooms: availibleRooms, date: date, element: document.getElementById('availibleRoomSectionManager')});
     }
+
 }
 
 const displayManagerDash = () => {
@@ -249,6 +267,7 @@ const displayManagerDash = () => {
             <p class="information">There is ${manager.getPercentAvailibleRooms({allRooms: hotel.allRooms, allBookings: hotel.allBookings, date: getTodaysDate()})} of rooms booked for tonight.</p>
         </section>
     `);
+
 }
     
 const displayCustomerDash = () => {
@@ -319,11 +338,11 @@ const cancelBookingAndShowResponse = (bookingID) => {
             refreshCustomerAndHotel(cancelMessege);
         }
     
-})
-.catch(error => {
-    dashboardSectionCustomer.innerHTML += (`<p id="bookingError">${error}</p>`);
-    setError(document.getElementById('bookingError'));
-});
+    })
+    .catch(error => {
+        dashboardSectionCustomer.innerHTML += (`<p id="bookingError">${error}</p>`);
+        setError(document.getElementById('bookingError'));
+    });
     
 }
 
