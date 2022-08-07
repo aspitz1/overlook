@@ -169,18 +169,18 @@ const displayCustomer = (customerData) => {
 
         customerData.futureBookings.forEach(booking => {
             document.getElementById('futureBookingsManager').innerHTML += (`
-                <article class="customer-bookings-article">
+                <article class="customer-bookings-article" id="a${booking.id}">
                     <p class="information">ID: ${booking.id}</p>
                     <p class="information">Date: ${makeDateDisplay(booking.date)}</p>
                     <p class="information">Room Number: ${booking.roomNumber}</p>
+                    <button class="cancel-btn" id="${booking.id}" data-bookingID="${booking.id}">Cancel Booking</button>
                 </article>
-                <button class="cancel-btn" id="${booking.id}" data-bookingID="${booking.id}">Cancel Booking</button>
             `);
         });
         
         customerData.futureBookings.forEach(booking => {
             document.getElementById('pastBookingsManager').innerHTML += (`
-                <article class="customer-bookings-article">
+                <article class="customer-booking-article">
                     <p class="information">ID: ${booking.id}</p>
                     <p class="information">Date: ${makeDateDisplay(booking.date)}</p>
                     <p class="information">Room Number: ${booking.roomNumber}</p>
@@ -407,7 +407,7 @@ const displayRoomsAndDetails = (roomsDateAndElementID) => {
     roomsDateAndElementID.rooms.forEach(room => {
         const hasBidet = room.bidet ? 'Has a bidet' : 'Doesn\'t have a bidet';
         document.getElementById(roomsDateAndElementID.element).innerHTML += (`
-            <article class="room-wrapper">
+            <article class="room-wrapper" id="room${room.number}">
                 <p class="informatuon">${makeUpperCase(room.roomType)}</p>
                 <ul class="list">
                     <li>Room number ${room.number}</li>
@@ -587,7 +587,7 @@ dashboardSectionManager.addEventListener('click', (event) => {
         displayManagerDash();
     } else if (event.target.id === 'customerSearchBtn') {
         const customerName = document.getElementById('customerSearchInput').value
-        if (!customerName || !/^[a-zA-Z]+$/g.test(customerName)) {
+        if (!customerName || !/^[a-zA-Z\s]+$/g.test(customerName)) {
             hideOff([document.getElementById('invalidName')]);
             setError(document.getElementById('invalidName'))
             return false;
@@ -596,8 +596,17 @@ dashboardSectionManager.addEventListener('click', (event) => {
     } else if (event.target.getAttribute('data-confirmCancel')) {
         const bookingID = event.target.getAttribute('data-bookingID');
         cancelBooking(bookingID)
-            .catch(console.error);
-        refreshManagerHoterAndCustomers('canceled');
+            .then(response => {
+                if (!response.ok) {
+                    throw 'Looks like something went wrong. The booking wasnt canceled'
+                } else {
+                    refreshManagerHoterAndCustomers('canceled');
+                }
+            })
+            .catch(error => {
+                document.getElementById(`a${bookin.id}`).innerHTML += `<p>Looks like something went wrong. Error: ${error}</p>`;
+                setError(document.getElementById(`a${bookin.id}`));
+            })
     } else if (event.target.getAttribute('data-bookingID')) {
         confirmCancelManager(event.target.getAttribute('data-bookingID'))
     } else if (event.target.id === 'makeBookingBtnManager') {
@@ -624,7 +633,10 @@ bookRoomSectionManager.addEventListener('click', (event) => {
             .then(data => {
                 refreshManagerHoterAndCustomers('confirmed');
             })
-            .catch(console.error);
+            .catch(error => {
+                document.getElementById(`room${booking.roomNumber}`).innerHTML += `<p>Looks like something went wrong. Error: ${error}</p>`;
+                setError(document.getElementById(`room${booking.roomNumber}`));
+            });
     } else if (event.target.id.includes('selectRoomBtn')) {
         event.preventDefault();
         confirmBookingManager(event.target.id);
