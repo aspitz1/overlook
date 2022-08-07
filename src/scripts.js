@@ -89,6 +89,22 @@ const refreshCustomerAndHotel = (statusMessege) => {
         });
 
     }
+
+    const refreshManagerHoterAndCustomers = () => {
+    Promise.all([getFetch('customers'), getFetch('rooms'), getFetch('bookings')])
+        .then(data => {
+            manager = new Manager({customers: data[0].customers, allBookings: data[2].bookings});
+            hotel = new Hotel({allRooms: data[1].rooms, allBookings: data[2].bookings});
+            displayManagerDash();
+            document.getElementById('managerDashHeading').innerText = `${customer.name}'s booking was canceled.`
+            customer = null;
+        })
+        .catch(error => {
+            setError(document.getElementById('loginDescription'));
+            document.getElementById('loginDescription').innerHTML = `<i class="fa-solid fa-x"></i> Looks like something went wrong. Error: ${error}`
+        });
+
+}
         
     const buildBookings = (bookingsAndElementID) => {
         if (!bookingsAndElementID.bookings.length) {
@@ -132,6 +148,7 @@ const refreshCustomerAndHotel = (statusMessege) => {
                 <button class="book-room-btn" id="managerBookRoomBtn"><i class="fa-solid fa-bell-concierge"></i> Find a Customer</button>
             </nav>
         `);
+
         if (customerData.name) {
             customer = customerData;
             dashboardSectionManager.innerHTML += (`
@@ -153,7 +170,7 @@ const refreshCustomerAndHotel = (statusMessege) => {
                         <p>Date: ${makeDateDisplay(booking.date)}</p>
                         <p>Room Number: ${booking.roomNumber}</p>
                     </article>
-                    <button class="cancel-btn-manager" id="cancelButtonManager">Cancel Booking</button>
+                    <button class="cancel-btn-manager" id="${booking.id}" data-bookingID="${booking.id}">Cancel Booking</button>
                 `);
             });
             
@@ -173,6 +190,11 @@ const refreshCustomerAndHotel = (statusMessege) => {
         }
     }
 
+    const confirmCancelManager = (bookingID) => {
+        document.getElementById(bookingID).setAttribute('data-confirm', 'true');
+        document.getElementById(bookingID).innerText = 'Confirm Cancelation';
+    }
+
     const displayManagerDash = () => {
         hideOff([dashboardSectionManager]);
         hideOn([loginSection, bookRoomSectionManager]);
@@ -180,7 +202,7 @@ const refreshCustomerAndHotel = (statusMessege) => {
             <nav class="manager-dash-nav">
                 <button class="book-room-btn" id="managerBookRoomBtn"><i class="fa-solid fa-bell-concierge"></i> Find a Customer</button>
             </nav>
-            <h1 class="customer-dash-heading">Welcome, thanks for being here!</h1>
+            <h1 class="manager-dash-heading" id="managerDashHeading">Welcome, thanks for being here!</h1>
             <section class="daily-stats-section" id="dailyStatsSection">
                 <h2 class="stats-heading">Here are today's stats.</h2>
                 <p class="stats">There are ${hotel.getAvailibleAndUnavailibleRooms(getTodaysDate()).availibleRooms.length} availible rooms.</p>
@@ -517,6 +539,12 @@ dashboardSectionManager.addEventListener('click', (event) => {
     } else if (event.target.id === 'customerSearchBtn') {
         const customerName = makeUpperCase(document.getElementById('customerSearchInput').value)
         displayCustomer(manager.findACustomer(customerName));
-    }
+    } else if (event.target.getAttribute('data-confirm')) {
+        const bookingID = event.target.getAttribute('data-bookingID');
+        cancelBooking(bookingID);
+        refreshManagerHoterAndCustomers();
+    } else if (event.target.getAttribute('data-bookingID')) {
+        confirmCancelManager(event.target.getAttribute('data-bookingID'))
+    } 
 
 });
