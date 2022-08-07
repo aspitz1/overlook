@@ -1,13 +1,28 @@
 $black: #232323;
-$grey-white: #d6d3c2;
-$violet-purple: #8f4bbf;
-$mint-woods: #179880; 
+$grey-white: #F1EFE9;
+$blue: #34526E;
+$woods: #A09D00;
 
-.hidden {
-    display: none;
-    width: 0px;
-    height: 0px;
+@mixin flex($flexDirection: column, $alignItems: center, $justifyContent: center) {
+    display: flex;
+    flex-direction: $flexDirection;
+    align-items: $alignItems;
+    justify-content: $justifyContent;
 }
+
+body,
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+}
+
+body { 
+    @include flex;
+    height: 100vh;
+    background: $black;
+}
+
 
 .screen-reader-only {
     clip: rect(1px, 1px, 1px, 1px);
@@ -18,4 +33,39 @@ $mint-woods: #179880;
     overflow: hidden;
     padding: 0;
     position: absolute;
+}
+
+.login-section {
+    @include flex;
+    width: 80vh;
+    height: 80vh;
+    background-image: url(/src/images/login-background.png);
+    background-repeat: no-repeat;
+    background-size: 80vh; 
+}
+
+.login-wrapper {
+    @include flex;
+    padding: 20px;
+    margin-bottom: 25vh;
+    width: 30vh;
+    height: 30vh;
+    background-color: $grey-white;
+    opacity: 2;
+    border: .2rem solid $black;
+}
+
+.heading {
+    padding-bottom: .75rem;
+    text-align: center;
+}
+
+.login-description {
+    padding-bottom: .75rem;
+}
+
+.hidden {
+    display: none;
+    width: 0px;
+    height: 0px;
 }

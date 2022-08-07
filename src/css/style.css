@@ -1,7 +1,17 @@
-.hidden {
-  display: none;
-  width: 0px;
-  height: 0px;
+body,
+* {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background: #232323;
 }
 
 .screen-reader-only {
@@ -13,6 +23,47 @@
   overflow: hidden;
   padding: 0;
   position: absolute;
+}
+
+.login-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80vh;
+  height: 80vh;
+  background-image: url(/src/images/login-background.png);
+  background-repeat: no-repeat;
+  background-size: 80vh;
+}
+
+.login-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  margin-bottom: 25vh;
+  width: 30vh;
+  height: 30vh;
+  background-color: #F1EFE9;
+  opacity: 2;
+  border: 0.2rem solid #232323;
+}
+
+.heading {
+  padding-bottom: 0.75rem;
+  text-align: center;
+}
+
+.login-description {
+  padding-bottom: 0.75rem;
+}
+
+.hidden {
+  display: none;
+  width: 0px;
+  height: 0px;
 }
 
 /*# sourceMappingURL=style.css.map */

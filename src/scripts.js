@@ -515,20 +515,22 @@ const loginAsCustomer = (loginNum) => {
 
 window.addEventListener('load', () => {
     hideOff([loginSection]);
-    loginSection.innerHTML = (`
-        <h1 class="heading">Welcome to Overlook</h1>
-        <p class="login-description" id="loginDescription">Please sign in.</p>
-        <form class="login-form">
-            <div class="login-name-wrapper">
-                <label class="screen-reader-only" for="login-name">Login Name: </label>
-                <input class="login-name-input" id="loginName" type="text" name="login-name" placeholder="Login Name">
-            </div>
-            <div class="password-wrapper">
-                <label class="screen-reader-only" for="password">Password: </label>
-                <input class="password-input" id="password" type="password" name="password" placeholder="Password">
-            </div>
-            <input class="login-submit-btn" id="loginSubmitBtn" type="submit" value="Login"> 
-        <form>
+    loginSection.innerHTML = (` 
+        <div class="login-wrapper" id="loginWrapper">
+            <h1 class="heading">Welcome to Overlook</h1>
+            <p class="login-description" id="loginDescription">Please sign in.</p>
+            <form class="login-form">
+                <div class="login-name-wrapper">
+                    <label class="screen-reader-only" for="login-name">Login Name: </label>
+                    <input class="login-name-input" id="loginName" type="text" name="login-name" placeholder="Login Name">
+                </div>
+                <div class="password-wrapper">
+                    <label class="screen-reader-only" for="password">Password: </label>
+                    <input class="password-input" id="password" type="password" name="password" placeholder="Password">
+                </div>
+                <input class="login-submit-btn" id="loginSubmitBtn" type="submit" value="Login"> 
+            <form>
+        </div>
     `);
 
 });
