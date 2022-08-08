@@ -116,9 +116,9 @@ const buildBookings = (bookingsAndElementID) => {
             const room = hotel.findRoom(booking.roomNumber);
             document.querySelector(`#${bookingsAndElementID.elementID}`).innerHTML += (`
             <button class="booking-detail-btn" id="bookingDetailBtn" type="button" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">
-                <p class="informational-p" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">${makeDateDisplay(booking.date)}</p>
-                <p class="informational-p" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Room Number: ${booking.roomNumber}</p>
-                <p class="informational-p" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Cost Per Night: $${room.costPerNight}</p>
+                <p class="information" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">${makeDateDisplay(booking.date)}</p>
+                <p class="information" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Room Number: ${booking.roomNumber}</p>
+                <p class="information" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Cost Per Night: $${room.costPerNight}</p>
                 <p class="screen-reader-only">Click for room info</p>
             </button>
             `);
@@ -275,16 +275,14 @@ const displayCustomerDash = () => {
         <nav class="nav">
             <button class="nav-btn" id="bookRoomBtn"><i class="fa-solid fa-bell-concierge"></i> Book a Room</button>
         </nav>
-        <h1 class="heading">Welcome back ${customer.name}!</h1>
-        <section class="upcoming-bookings-section" id="upcomingBookingSection">
-            <h2 class="heading-two">Upcoming Bookings</h2>
-        </section>
-        <section class="past-bookings-section" id="pastBookingSection">
-            <h2 class="heading-two">Past Bookings</h2>
-        </section>
+        <h1 class="heading customer-dash-heading white-font">Welcome back ${customer.name}!</h1>
+        <h2 class="heading-two white-font">Upcoming Bookings</h2>
+        <section class="bookings-section" id="upcomingBookingSection"></section>
+        <h2 class="heading-two white-font">Past Bookings</h2>
+        <section class="bookings-section" id="pastBookingSection"></section>
         <section class="total-spent-section" id="totalSpentSection">
             <h2 class="heading-two">Total Amount Spent on Past Bookings</h2>
-            <p class="information">$${customer.returnTotalSpent(hotel.allRooms)}</p>
+            <p class="amount-spent">$${customer.returnTotalSpent(hotel.allRooms)}</p>
         </section>
 `);
     buildBookings({bookings: customer.futureBookings, elementID: 'upcomingBookingSection'});
@@ -300,17 +298,19 @@ const showSelectBooking = (bookingIDAndRoom) => {
             <button class="nav-btn" id="dashBtn"><i class="fa-solid fa-bed"></i> Dashboard</book>
             <button class="nav-btn" id="bookRoomBtn"><i class="fa-solid fa-bell-concierge"></i> Book a Room</button>
         </nav>
-        <h1 class="heading">A Beautiful ${makeUpperCase(bookingIDAndRoom.selectedRoom.roomType)}</h1>
-        <p class="information">Cost Per Night: $${bookingIDAndRoom.selectedRoom.costPerNight}</p>
-        <ul class="list">
-            <li>${makeUpperCase(bookingIDAndRoom.selectedRoom.bedSize)} bed</li>
-            <li>Has ${bookingIDAndRoom.selectedRoom.numBeds} bed(s)</li>
-            <li>${hasBidet}</li>
-            <li>The room number is ${bookingIDAndRoom.selectedRoom.number}</li>
-        </ul>
+        <div class="room-display-wrapper" id="roomDisplayWrapper">
+            <h1 class="heading">A Beautiful ${makeUpperCase(bookingIDAndRoom.selectedRoom.roomType)}</h1>
+            <p class="information">Cost Per Night: $${bookingIDAndRoom.selectedRoom.costPerNight}</p>
+            <ul class="list">
+                <li><i class="fa-solid fa-asterisk"></i> ${makeUpperCase(bookingIDAndRoom.selectedRoom.bedSize)} bed</li>
+                <li><i class="fa-solid fa-asterisk"></i> Has ${bookingIDAndRoom.selectedRoom.numBeds} bed(s)</li>
+                <li><i class="fa-solid fa-asterisk"></i> ${hasBidet}</li>
+                <li><i class="fa-solid fa-asterisk"></i> The room number is ${bookingIDAndRoom.selectedRoom.number}</li>
+            </ul>
+        </div>
     `);
     if (selectedBooking.date >= getTodaysDate()) {
-        dashboardSectionCustomer.innerHTML += (`
+        document.getElementById('roomDisplayWrapper').innerHTML += (`
             <p class="information">Your booking is for ${makeDateDisplay(selectedBooking.date)}</p>
             <button class="cancel-btn" id="cancelBtn" data-selectedBookingID="${selectedBooking.id}"><i class="fa-solid fa-rectangle-xmark"></i> Cancel Booking</button>
     `);
@@ -320,10 +320,10 @@ const showSelectBooking = (bookingIDAndRoom) => {
     
 const confirmCancelCustomer = (bookingID) => {
     document.getElementById('cancelBtn').remove();
-    dashboardSectionCustomer.innerHTML += (`
+    document.getElementById('roomDisplayWrapper').innerHTML += (`
         <form class="form">
             <lable class="search-label" for="confirm-cancel">Are you sure you want too cancel?</label>
-            <input class="search-btn" id="confirmCancelBtn" type="submit" name="confirm-cancel" value="Confirm" data-selectedBookingID="${bookingID}">
+            <input class="cancel-btn" id="confirmCancelBtn" type="submit" name="confirm-cancel" value="Confirm" data-selectedBookingID="${bookingID}">
         </form>
     `);
 
@@ -358,7 +358,7 @@ const bookRoomCustomer = () => {
         <form id="roomPicker">
             <label class="search-label" for="stay-date">Pick your stay date: </label>
             <input class="search-intput-calander" type="date" id="datePicker" name="stay-date" value="${getTodaysDate().split('/').join('-')}" min="${getTodaysDate().split('/').join('-')}" max="2024-01-01">
-            <input class="search-btn" id="roomPickerBtn" type="submit" value="Find Rooms">
+            <input class="find-btn" id="roomPickerBtn" type="submit" value="Find Rooms">
         </form>
     `);
 
@@ -541,13 +541,13 @@ loginSection.addEventListener('click', (event) => {
         const loginName = document.querySelector('#loginName').value;
         const password = document.querySelector('#password').value;
         const loginDescription = document.querySelector('#loginDescription');
+        loginAsCustomer(3);
         if (!loginName.length || !password.length) {
             loginDescription.innerHTML = '<i class="fa-solid fa-x"></i> Please enter your login name and password.';
             setError(loginDescription);
         } else if (password === 'overlook2021' && loginName === 'manager') {
             loginAsManager();
         } else if (password === 'overlook2021' && loginName.includes('customer') && loginName.replace('customer', '') <= 50) {
-            loginAsCustomer(loginName.replace('customer', ''));
         } else {
             loginDescription.innerHTML = '<i class="fa-solid fa-x"></i> Invalid login credentials.';
             setError(loginDescription);

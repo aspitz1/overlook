@@ -4,6 +4,10 @@ $blue: #34526E;
 $woods: #A09D00;
 $thick-border: .2rem solid $black;
 $thin-border: .07rem solid $black;
+$woods-border: .07rem solid $woods;
+$grey-white-border: .07rem solid $grey-white;
+$round-corners-large: 20px;
+$round-corner-small: 10px;
 
 @mixin flex($flexDirection: column, $alignItems: center, $justifyContent: center) {
     display: flex;
@@ -25,18 +29,23 @@ body {
     background: $black;
 }
 
-
-.screen-reader-only {
-    clip: rect(1px, 1px, 1px, 1px);
-    clip-path: inset(50%);
-    height: 1px;
-    width: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
+// GENERAL STYLES
+.heading,
+.heading-two {
+    margin-bottom: 20px;
+    text-align: center;
 }
 
+.white-font {
+    color: $grey-white;
+}
+
+.list {
+    padding-bottom: 10px;
+    list-style: none;
+}
+
+// LOGIN PAGE STYLES
 .login-section {
     @include flex;
     width: 90vh;
@@ -54,28 +63,19 @@ body {
     background-color: $grey-white;
     opacity: 2;
     border: .2rem solid $black;
-}
-
-.heading {
-    padding-bottom: .75rem;
-    text-align: center;
+    border-radius: $round-corners-large;
 }
 
 .login-description {
-    padding-bottom: .75rem;
+    padding-bottom: 5px;
 }
 
 .login-name-input,
 .password-input {
-    margin-bottom: .6rem;
+    margin-bottom: 8px;
     padding: 10px;
     border: $thin-border;
-}
-
-.hidden {
-    display: none;
-    width: 0px;
-    height: 0px;
+    border-radius: $round-corner-small;
 }
 
 .login-submit-btn {
@@ -83,10 +83,154 @@ body {
     padding: 4px;
     font-weight: bolder;
     border: $thin-border;
+    border-radius: $round-corners-large;
     background: none;
     &:hover {
         cursor: pointer;
         background: $woods;
-        border: .07rem solid $woods;
+        border: $woods-border;
     }
+}
+
+// NAV STYLES
+.nav {
+    overflow: hidden;
+    position: fixed;
+    top: 0;
+    width: 100vw;
+    height: 85px;
+    background: $blue;
+}
+
+.nav-btn {
+    margin-top: 20px;
+    margin-left: 40px;
+    padding: 10px;
+    background: none;
+    border: $thin-border;
+    border-radius: $round-corners-large;
+    font-size: larger;
+    font-weight: lighter;
+    color: $grey-white;
+    &:hover {
+        cursor: pointer;
+        background-color: $grey-white;
+        border: $grey-white-border;
+        color: $black;
+    }
+}
+
+// CUSTOMER DASH
+.dashboard-section-customer {
+    @include flex;
+    width: 80vw;
+    max-width: 800px;
+}
+
+.customer-dash-heading {
+    margin-top: 250px;
+}
+
+.bookings-section {
+    display: grid;
+    grid-template-columns:  repeat(4, 1fr);
+    grid-template-rows: auto;
+    width: 100%;
+    margin-bottom: 30px;
+    padding: 20px;
+    border-radius: $round-corners-large;
+    background: $grey-white;
+}
+
+.booking-detail-btn {
+    padding: 10px;
+    margin: 5px;
+    background: none;
+    border: $thin-border;
+    border-radius: $round-corner-small;
+    &:hover {
+        cursor: pointer; 
+        background: $woods;
+        border: $woods-border;
+    }
+}
+
+.total-spent-section {
+    width: 100%;
+    text-align: center;
+    background: $woods;
+    margin-bottom: 7vh;
+    padding: 10px;
+    font-size: large;
+    border-radius: $round-corners-large;
+}
+
+.amount-spent {
+    font-size: larger;
+}
+
+// ROOM INFO VIEW
+.room-display-wrapper {
+    width: 50vw;
+    padding: 40px;
+    background: $grey-white;
+    border-radius: $round-corners-large;
+}
+
+.information {
+    padding-bottom: 10px;
+}
+
+.cancel-btn {
+    padding: 5px 20px;
+    background: none;
+    border: $thin-border;
+    border-radius: $round-corners-large;
+    &:hover {
+        cursor: pointer;
+        color: $black;
+        background: $woods;
+        border: $woods-border;
+    }
+}
+
+// CUSTOMER BOOKING
+.book-room-section-customer {
+    @include flex;
+    width: 80vw;
+    padding: 30px;
+    margin-bottom: 10vh;
+    max-width: 800px;
+    background: $woods;
+    border-radius: $round-corners-large;
+}
+
+.find-btn {
+    padding: 5px 8px;
+    background: none;
+    border: $thin-border;
+    border-radius: $round-corners-large;
+    &:hover {
+        cursor: pointer;
+        background: $grey-white;
+        border: $grey-white-border;
+    }
+}
+
+// UTILITY STYLES
+.hidden {
+    display: none;
+    width: 0px;
+    height: 0px;
+}
+
+.screen-reader-only {
+    clip: rect(1px, 1px, 1px, 1px);
+    clip-path: inset(50%);
+    height: 1px;
+    width: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
 }
