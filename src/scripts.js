@@ -259,7 +259,9 @@ const displayManagerDash = () => {
         <nav class="nav">
             <button class="nav-btn" id="managerFindCustomerBtn"><i class="fa-solid fa-bell-concierge"></i> Find a Customer</button>
         </nav>
-        <h1 class="heading" id="managerDashHeading">Welcome, thanks for being here!</h1>
+        <div class="manager-heading-wrapper">
+            <h1 class="heading" id="managerDashHeading">Welcome, thanks for being here!</h1>
+        </div>
         <section class="daily-stats-section" id="dailyStatsSection">
             <h2 class="heading-two">Here are today's stats.</h2>
             <p class="information">There are ${hotel.getAvailibleAndUnavailibleRooms(getTodaysDate()).availibleRooms.length} availible rooms.</p>
@@ -275,10 +277,12 @@ const displayCustomerDash = () => {
         <nav class="nav">
             <button class="nav-btn" id="bookRoomBtn"><i class="fa-solid fa-bell-concierge"></i> Book a Room</button>
         </nav>
-        <h1 class="heading customer-dash-heading white-font">Welcome back ${customer.name}!</h1>
-        <h2 class="heading-two white-font">Upcoming Bookings</h2>
+        <div class="customer-heading-wrapper">
+            <h1 class="heading customer-dash-heading white-font">Welcome back ${customer.name}!</h1>
+        </div>
+        <h2 class="heading-two booking-heading white-font">Upcoming Bookings</h2>
         <section class="bookings-section" id="upcomingBookingSection"></section>
-        <h2 class="heading-two white-font">Past Bookings</h2>
+        <h2 class="heading-two booking-heading white-font">Past Bookings</h2>
         <section class="bookings-section" id="pastBookingSection"></section>
         <section class="total-spent-section" id="totalSpentSection">
             <h2 class="heading-two">Total Amount Spent on Past Bookings</h2>

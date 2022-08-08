@@ -53,6 +53,7 @@ body {
     background-image: url(/src/images/login-background.png);
     background-repeat: no-repeat;
     background-size: 90vh; 
+    border-radius: $round-corners-large;
 }
 
 .login-wrapper {
@@ -123,12 +124,38 @@ body {
 // CUSTOMER DASH
 .dashboard-section-customer {
     @include flex;
-    width: 80vw;
-    max-width: 800px;
+    width: 50vw;
+
+}
+
+.customer-heading-wrapper {
+    @include flex;
+    width: 100%;
+    height: 150px;
+    margin: 490px 0px 40px 0px;
+    padding: 20px;
+    background-image: url(/src/images/banner.png);
+    background-repeat: no-repeat;
+    border-radius: $round-corners-large;
 }
 
 .customer-dash-heading {
-    margin-top: 250px;
+    margin-bottom: 60px;
+    padding: 10px;
+    background-color: $grey-white;
+    color: $black;
+    border: $thin-border;
+    border-radius: $round-corner-small;
+}
+   
+.booking-heading {
+    width: 100%;
+    margin-bottom: 0px;
+    padding: 10px 20px;
+    background-color: $woods;
+    color: $grey-white;
+    border-top-left-radius: $round-corners-large;
+    border-top-right-radius: $round-corners-large;
 }
 
 .bookings-section {
@@ -138,7 +165,8 @@ body {
     width: 100%;
     margin-bottom: 30px;
     padding: 20px;
-    border-radius: $round-corners-large;
+    border-bottom-left-radius: $round-corners-large;
+    border-bottom-right-radius: $round-corners-large;
     background: $grey-white;
 }
 
