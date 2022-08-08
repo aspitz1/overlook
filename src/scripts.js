@@ -359,13 +359,15 @@ const bookRoomCustomer = () => {
         <nav class="nav">
             <button class="nav-btn" id="dashBtn"><i class="fa-solid fa-bed"></i> Dashboard</book>
         </nav>
-        <h1 class="heading">Let's find your perfect room.</h1>
-        <p class="information">Pick the date of your stay.</p>
-        <form id="roomPicker">
-            <label class="search-label" for="stay-date">Pick your stay date: </label>
-            <input class="search-intput-calander" type="date" id="datePicker" name="stay-date" value="${getTodaysDate().split('/').join('-')}" min="${getTodaysDate().split('/').join('-')}" max="2024-01-01">
-            <input class="find-btn" id="roomPickerBtn" type="submit" value="Find Rooms">
-        </form>
+        <section class="find-room-wrapper">
+            <h1 class="heading find-room-heading">Let's find your perfect room.</h1>
+            <p class="information pick-date-info">Pick the date of your stay.</p>
+            <form class="room-picker" id="roomPicker">
+                <label class="search-label" for="stay-date">Pick your stay date: </label>
+                <input class="search-intput-calander" type="date" id="datePicker" name="stay-date" value="${getTodaysDate().split('/').join('-')}" min="${getTodaysDate().split('/').join('-')}" max="2024-01-01">
+                <input class="find-btn" id="roomPickerBtn" type="submit" value="Find Rooms">
+            </form>
+        </section>
     `);
 
 }
@@ -384,7 +386,7 @@ const displayAvailibleRooms = (dateAndElement) => {
             <p class="information">We're so sorry! We are looking forward to having you, can you come another night?</p>
             <button class="search-btn" id="returnToPickerBtn">Pick another Date</button>
         `)
-    } else {
+    } else {    
         displayAvailibleUnfilteredRooms({rooms: availibleRooms, date: dateAndElement.date, element: dateAndElement.element});
     }
         
@@ -409,7 +411,7 @@ const displayFilteredRoomDetails = (dateAndRoomType) => {
 
 const displayAvailibleUnfilteredRooms = (roomsDateAndElement) => {
     roomsDateAndElement.element.innerHTML += (`
-            <h1 class="heading" id="roomPickerHeading">Here are all availible rooms for ${makeDateDisplay(roomsDateAndElement.date)}.</h1>
+            <h1 class="heading availible-room-heading" id="roomPickerHeading">Here are all availible rooms for ${makeDateDisplay(roomsDateAndElement.date)}.</h1>
             <form class="form" id="filterRooms">
                 <label class="search-label" for="room-type">Filter rooms by type: </lable>
                 <select class="room-type-select" id="filterRoomChoice" name="room-type">
@@ -422,17 +424,17 @@ const displayAvailibleUnfilteredRooms = (roomsDateAndElement) => {
                 <input class="search-btn" id="roomFilterBtn" type="button" value="Filter" data-date="${roomsDateAndElement.date}">
             </form>
             <section class="availible-room-section" id="availibleRoomSection"></section>
-            `)   
+        `)   
     displayRoomsAndDetails({rooms: roomsDateAndElement.rooms, date: roomsDateAndElement.date, element: 'availibleRoomSection'})
         
 }
 
 const displayRoomsAndDetails = (roomsDateAndElementID) => {
     document.getElementById(roomsDateAndElementID.element).innerHTML = '';
-    roomsDateAndElementID.rooms.forEach(room => {
+    roomsDateAndElementID.rooms.forEach((room, i) => {
         const hasBidet = room.bidet ? 'Has a bidet' : 'Doesn\'t have a bidet';
         document.getElementById(roomsDateAndElementID.element).innerHTML += (`
-            <article class="room-wrapper" id="room${room.number}">
+            <article class="room-wrapper room-wrapper-${i}" id="room${room.number}">
                 <p class="informatuon">${makeUpperCase(room.roomType)}</p>
                 <ul class="list">
                     <li>Room number ${room.number}</li>
@@ -523,7 +525,7 @@ window.addEventListener('load', () => {
     hideOff([loginSection]);
     loginSection.innerHTML = (` 
         <div class="login-wrapper" id="loginWrapper">
-            <h1 class="heading">Welcome to Overlook</h1>
+            <h1 class="heading login-heading">Welcome to Overlook</h1>
             <p class="login-description" id="loginDescription">Please sign in.</p>
             <form class="login-form">
                 <div class="login-name-wrapper">
