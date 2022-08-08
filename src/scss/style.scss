@@ -266,7 +266,8 @@ body {
     border-bottom-right-radius: $round-corners-large;
 }
 
-.find-btn {
+.find-btn,
+.search-btn-filter {
     align-self: flex-end;
     margin-left: 20px;
     padding: 5px 8px;
@@ -283,14 +284,54 @@ body {
 // DISPLAY AVAILIBLE ROOMS
 .availible-room-section {
     width: 100%;
+    height: 100%;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     grid-template-rows: auto;
+    grid-gap: 5px;
+    padding: 5px;
     background: $woods;
 }
 
 .availible-room-heading {
+    width: 100%;
     margin-top: 100px;
+    margin-bottom: 0px;
+    padding: 5px 5px;
+    background-color: $grey-white;
+    border-top-left-radius: $round-corner-small;
+    border-top-right-radius: $round-corner-small;
+}
+
+.form-filter {
+    width: 100%;
+    background: $grey-white;
+    padding: 10px 5px;
+}
+
+.room-wrapper {
+    background: $grey-white;
+    border: $thin-border;
+    border-radius: $round-corner-small;
+}
+
+.room-filter-info {
+    padding: 0px 3px 3px 3px;
+}
+
+.book-btn {
+    margin-left: 3px;
+    margin-bottom: 3px;
+    padding: 5px 8px;
+    background: none;
+    border: $thin-border;
+    border-radius: $round-corner-small;
+    &:hover {
+        cursor: pointer;
+        background: $blue;
+        color: $grey-white;
+        border: $blue-border;
+    }
 }
 
 // UTILITY STYLES

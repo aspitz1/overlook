@@ -412,8 +412,8 @@ const displayFilteredRoomDetails = (dateAndRoomType) => {
 const displayAvailibleUnfilteredRooms = (roomsDateAndElement) => {
     roomsDateAndElement.element.innerHTML += (`
             <h1 class="heading availible-room-heading" id="roomPickerHeading">Here are all availible rooms for ${makeDateDisplay(roomsDateAndElement.date)}.</h1>
-            <form class="form" id="filterRooms">
-                <label class="search-label" for="room-type">Filter rooms by type: </lable>
+            <form class="form-filter" id="filterRooms">
+                <label class="search-label-filter" for="room-type">Filter rooms by type: </label>
                 <select class="room-type-select" id="filterRoomChoice" name="room-type">
                     <option class="room-type-option" value="">All Availible</option>
                     <option class="room-type-option" value="residential suite">Residential Suite</option>
@@ -421,7 +421,7 @@ const displayAvailibleUnfilteredRooms = (roomsDateAndElement) => {
                     <option class="room-type-option" value="single room">Single Room</option>
                     <option class="room-type-option" value="junior suite">Junior Suite</option>
                 </select> 
-                <input class="search-btn" id="roomFilterBtn" type="button" value="Filter" data-date="${roomsDateAndElement.date}">
+                <input class="search-btn-filter" id="roomFilterBtn" type="button" value="Filter" data-date="${roomsDateAndElement.date}">
             </form>
             <section class="availible-room-section" id="availibleRoomSection"></section>
         `)   
@@ -434,16 +434,16 @@ const displayRoomsAndDetails = (roomsDateAndElementID) => {
     roomsDateAndElementID.rooms.forEach((room, i) => {
         const hasBidet = room.bidet ? 'Has a bidet' : 'Doesn\'t have a bidet';
         document.getElementById(roomsDateAndElementID.element).innerHTML += (`
-            <article class="room-wrapper room-wrapper-${i}" id="room${room.number}">
-                <p class="informatuon">${makeUpperCase(room.roomType)}</p>
+            <article class="room-wrapper" id="room${room.number}">
+                <p class="room-filter-info">${makeUpperCase(room.roomType)}</p>
                 <ul class="list">
-                    <li>Room number ${room.number}</li>
-                    <li>${makeUpperCase(room.bedSize)} bed</li>
-                    <li>${room.numBeds} bed(s)</li>
-                    <li>${hasBidet}</li>
-                    <li>$${room.costPerNight} per night</li> 
+                    <li class="room-filter-info">Room number ${room.number}</li>
+                    <li class="room-filter-info">${makeUpperCase(room.bedSize)} bed</li>
+                    <li class="room-filter-info">${room.numBeds} bed(s)</li>
+                    <li class="room-filter-info">${hasBidet}</li>
+                    <li class="room-filter-info">$${room.costPerNight} per night</li> 
                 </ul>
-                <button class="search-btn" id="selectRoomBtn${room.number}" data-date="${roomsDateAndElementID.date}" data-roomNumber="${room.number}">Book</button>
+                <button class="book-btn" id="selectRoomBtn${room.number}" data-date="${roomsDateAndElementID.date}" data-roomNumber="${room.number}">Book</button>
             </article>
         `);
     });
