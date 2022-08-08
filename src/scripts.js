@@ -115,12 +115,12 @@ const buildBookings = (bookingsAndElementID) => {
         bookingsAndElementID.bookings.forEach(booking => {
             const room = hotel.findRoom(booking.roomNumber);
             document.querySelector(`#${bookingsAndElementID.elementID}`).innerHTML += (`
-            <button class="booking-detail-btn" id="bookingDetailBtn" type="button" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">
-                <p class="information" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">${makeDateDisplay(booking.date)}</p>
-                <p class="information" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Room Number: ${booking.roomNumber}</p>
-                <p class="information" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Cost Per Night: $${room.costPerNight}</p>
-                <p class="screen-reader-only">Click for room info</p>
-            </button>
+                <button class="booking-detail-btn" id="bookingDetailBtn" type="button" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">
+                    <p class="information" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">${makeDateDisplay(booking.date)}</p>
+                    <p class="information" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Room Number: ${booking.roomNumber}</p>
+                    <p class="information" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Cost Per Night: $${room.costPerNight}</p>
+                    <p class="screen-reader-only">Click for room info</p>
+                </button>
             `);
         });
     }
@@ -285,6 +285,7 @@ const displayCustomerDash = () => {
             <p class="amount-spent">$${customer.returnTotalSpent(hotel.allRooms)}</p>
         </section>
 `);
+
     buildBookings({bookings: customer.futureBookings, elementID: 'upcomingBookingSection'});
     buildBookings({bookings: customer.pastBookings, elementID: 'pastBookingSection'});
         
@@ -309,6 +310,7 @@ const showSelectBooking = (bookingIDAndRoom) => {
             </ul>
         </div>
     `);
+    
     if (selectedBooking.date >= getTodaysDate()) {
         document.getElementById('roomDisplayWrapper').innerHTML += (`
             <p class="information">Your booking is for ${makeDateDisplay(selectedBooking.date)}</p>
