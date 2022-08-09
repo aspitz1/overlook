@@ -36,10 +36,6 @@ body {
     text-align: center;
 }
 
-.white-font {
-    color: $grey-white;
-}
-
 .list {
     padding-bottom: 10px;
     list-style: none;
@@ -158,7 +154,7 @@ body {
     margin-bottom: 0px;
     padding: 10px 20px;
     background-color: $woods;
-    color: $grey-white;
+    color: $black;
     border-top-left-radius: $round-corners-large;
     border-top-right-radius: $round-corners-large;
 }
@@ -332,7 +328,6 @@ body {
     margin-top: 150px;
     background: $grey-white;
     border-radius: $round-corners-large;
-    padding: 20px;
 }
 
 .book-btn {
@@ -528,6 +523,8 @@ body {
 .manager-display-availible-rooms {
     width: 75%;
 }
+
+// .room-picker-manager-form
 
 // UTILITY STYLES
 .hidden {

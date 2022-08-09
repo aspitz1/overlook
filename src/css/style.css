@@ -19,10 +19,6 @@ body {
   text-align: center;
 }
 
-.white-font {
-  color: #F1EFE9;
-}
-
 .list {
   padding-bottom: 10px;
   list-style: none;
@@ -145,7 +141,7 @@ body {
   margin-bottom: 0px;
   padding: 10px 20px;
   background-color: #A09D00;
-  color: #F1EFE9;
+  color: #232323;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 }
@@ -326,7 +322,6 @@ body {
   margin-top: 150px;
   background: #F1EFE9;
   border-radius: 20px;
-  padding: 20px;
 }
 
 .book-btn {
