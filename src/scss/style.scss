@@ -173,6 +173,7 @@ body {
     border-bottom-left-radius: $round-corners-large;
     border-bottom-right-radius: $round-corners-large;
     background: $grey-white;
+    overflow: scroll;
 }
 
 .booking-detail-btn {
@@ -203,7 +204,9 @@ body {
 }
 
 // ROOM INFO VIEW
-.room-display-wrapper {
+.room-display-wrapper,
+.confirm-booking-customer,
+.status-msg-wrapper {
     width: 50vw;
     padding: 40px;
     margin-top: 150px;
@@ -211,11 +214,16 @@ body {
     border-radius: $round-corners-large;
 }
 
+.status-msg-wrapper {
+    text-align: center;
+}
+
 .information {
     padding-bottom: 10px;
 }
 
-.cancel-btn {
+.cancel-btn,
+.confirm-btn {
     padding: 5px 20px;
     background: none;
     border: $thin-border;
@@ -233,7 +241,8 @@ body {
     @include flex;
 }
 
-.find-room-wrapper {
+.find-room-wrapper,
+.book-for-customer-section {
     @include flex;
     width: 60vh;
     height: 60vh;
@@ -267,9 +276,8 @@ body {
 }
 
 .find-btn,
-.search-btn-filter {
-    align-self: flex-end;
-    margin-left: 20px;
+.search-btn-filter,
+.search-btn {
     padding: 5px 8px;
     background: none;
     border: $thin-border;
@@ -291,6 +299,9 @@ body {
     grid-gap: 5px;
     padding: 5px;
     background: $woods;
+    border-bottom-left-radius: $round-corner-small;
+    border-bottom-right-radius: $round-corner-small;
+    overflow: scroll;
 }
 
 .availible-room-heading {
@@ -334,6 +345,151 @@ body {
     }
 }
 
+// MANAGER DASH
+.dashboard-section-manager {
+    @include flex;
+    width: 100vw;
+}
+.manager-heading-wrapper {
+    width: 60%;
+    margin-top: 150px;
+    padding: 10px 0px 10px 0px;
+    background: $woods;
+    border-top-left-radius: $round-corners-large;
+    border-top-right-radius: $round-corners-large;
+}
+
+.heading-two-stats {
+    text-align: center;
+    padding: 10px 0px 10px 0px;
+    background: $blue;
+    color: $grey-white;
+}
+
+.daily-stats-section {
+    width: 60%;
+    background: $grey-white;
+    border-bottom-left-radius: $round-corners-large;
+    border-bottom-right-radius: $round-corners-large;
+}
+
+.stats-info {
+    padding: 10px;
+}
+
+// CUSTOMER SEARCH
+.customer-search-heading {
+    text-align: center;
+    width: 60%;
+    margin-top: 150px;
+    background: $woods;
+    padding: 20px 0px 10px 5px;
+    border-top-left-radius: $round-corners-large;
+    border-top-right-radius: $round-corners-large;
+}
+
+.search-customer-wrapper {
+    @include flex;
+    width: 60%;
+    background: $grey-white;
+    padding: 20px 0px 10px 5px;
+    border-bottom-left-radius: $round-corners-large;
+    border-bottom-right-radius: $round-corners-large;
+}
+
+.search-input {
+    margin-bottom: 8px;
+    padding: 5px;
+    border: $thin-border;
+    border-radius: $round-corner-small;
+}
+
+// DISPLAY CUSTOMER INFO
+.customer-info-heading {
+    text-align: center;
+    width: 60%;
+    margin-top: 150px;
+    margin-bottom: 30px;
+    padding: 20px 0 20px 0;
+    background: $grey-white;
+    border-radius: $round-corners-large;
+    border-radius: $round-corners-large;
+}
+
+.customer-date-wrapper {
+    text-align: center;
+    width: 60%;
+    margin-bottom: 20px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: $grey-white;
+    border-radius: $round-corners-large;
+}
+
+.customer-info {
+    padding-bottom: 10px;
+}
+
+.heading-manager-customer {
+    text-align: center;
+    width: 60%;
+    padding: 10px 0px;
+    background-color: $woods;
+    border-top-left-radius: $round-corners-large;
+    border-top-right-radius: $round-corners-large;
+}
+
+.list-bookings-manager {
+    width: 60%;
+    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-template-rows: auto;
+    background: $grey-white;
+    border-bottom-left-radius: $round-corners-large;
+    border-bottom-right-radius: $round-corners-large;
+    overflow: scroll;
+}
+
+.make-booking-btn {
+    padding: 8px;
+    background: none;
+    border: $thin-border;
+    border-radius: $round-corners-large;
+        &:hover {
+            cursor: pointer;
+            background: $blue;
+            color: $grey-white;
+            border: $blue-border;
+        }
+}
+
+.customer-booking-article {
+    @include flex;
+    margin: 10px;
+    padding-bottom: 10px;
+    border: $thin-border;
+    border-radius: $round-corner-small;
+}
+
+.booking-info {
+    padding: 5px;
+}
+
+// MAKE BOOKINGS MANAGER
+.book-room-section-manager {
+    @include flex;
+    width: 100vw;
+}
+
+.manager-book-room-heading {
+    text-align: center;
+    margin-top: 20px;
+    width: 100%;
+    padding: 10px 0px;
+    background: $grey-white;
+}
+
 // UTILITY STYLES
 .hidden {
     display: none;
@@ -350,4 +506,16 @@ body {
     overflow: hidden;
     padding: 0;
     position: absolute;
+}
+
+.suite {
+    background: #95B9B4;
+}
+
+.residential-suite {
+    background: #B36868;
+}
+
+.junior-suite {
+    background: #DEC58C;
 }
