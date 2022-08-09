@@ -27,8 +27,8 @@ let customer;
 let manager;
 let hotel;
 
-const cancelMessege = 'Your booking has been canceled. We are sorry you can\'t make it.';
-const bookedMessege = 'Your room has been booked! We are looking forward to your stay.';
+const cancelMessege = '<h1>Your booking has been canceled.</h1><p>We are sorry you can\'t make it.</p>';
+const bookedMessege = '<h1></><i class="fa-solid fa-face-smile-beam"></i> Your room has been booked!</h1><p>We are looking forward to your stay.</p>';
 
 /* UTILITY FUNCTIONS */
 
@@ -75,8 +75,9 @@ const refreshCustomerAndHotel = (statusMessege) => {
                 <button class="nav-btn" id="dashBtn"><i class="fa-solid fa-bed"></i> Dashboard</book>
                 <button class="nav-btn" id="bookRoomBtn"><i class="fa-solid fa-bell-concierge"></i> Book a Room</button>
             </nav>
-            <h1 class="heading">${statusMessege}</h1>
-            `)      
+            <div class="status-msg-wrapper" id="statusMsgWrapper"></div>
+            `)
+            document.getElementById('statusMsgWrapper').innerHTML = statusMessege;      
         })
         .catch(err => {
             dashboardSectionCustomer.innerHTML = (`
@@ -115,12 +116,12 @@ const buildBookings = (bookingsAndElementID) => {
         bookingsAndElementID.bookings.forEach(booking => {
             const room = hotel.findRoom(booking.roomNumber);
             document.querySelector(`#${bookingsAndElementID.elementID}`).innerHTML += (`
-            <button class="booking-detail-btn" id="bookingDetailBtn" type="button" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">
-                <p class="informational-p" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">${makeDateDisplay(booking.date)}</p>
-                <p class="informational-p" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Room Number: ${booking.roomNumber}</p>
-                <p class="informational-p" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Cost Per Night: $${room.costPerNight}</p>
-                <p class="screen-reader-only">Click for room info</p>
-            </button>
+                <button class="booking-detail-btn" id="bookingDetailBtn" type="button" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">
+                    <p class="information" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">${makeDateDisplay(booking.date)}</p>
+                    <p class="information" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Room Number: ${booking.roomNumber}</p>
+                    <p class="information" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Cost Per Night: $${room.costPerNight}</p>
+                    <p class="screen-reader-only">Click for room info</p>
+                </button>
             `);
         });
     }
@@ -134,13 +135,13 @@ const displayCustomerSearch = () => {
         <nav class="nav">
             <button class="nav-btn" id="managerDashBtn"><i class="fa-solid fa-house-chimney"></i> Dashboard</button>
         </nav>
-        <h1 class="heading">Let's get to work!</h1>
+        <h1 class="customer-search-heading">Let's get to work!</h1>
         <section class="search-customer-wrapper">
             <label class="search-label" for="customer-search">Search for customer by name: </label>
             <input class="search-input" id="customerSearchInput" type="test" name="customer-search">
             <input class="search-btn" id="customerSearchBtn" type="button" value="Find Customer">
+            <p class="information hidden" id="invalidName"><i class="fa-solid fa-x"></i> This isn't a valid name.</p>
         </section>
-        <p class="information hidden" id="invalidName"><i class="fa-solid fa-x"></i> This isn't a valid name.</p>
     `);
 
 }
@@ -167,16 +168,17 @@ const displayCustomer = (customerData) => {
 
 const displayCustomerInfoManager = () => {
     dashboardSectionManager.innerHTML += (`
-            <h1 class="heading">Here is ${customer.name}'s information.</h1>
-            <p class="information">ID: ${customer.id}</p>
-            <p class="information">Total Spent: ${customer.returnTotalSpent(hotel.allRooms)}</p>
-            <button class="search-btn" id="makeBookingBtnManager">Make Booking</button>
+            <h1 class="customer-info-heading">Here is ${customer.name}'s information.</h1>
+            <section class="customer-date-wrapper">
+                <p class="customer-info">ID: ${customer.id}</p>
+                <p class="customer-info">Total Spent: ${customer.returnTotalSpent(hotel.allRooms)}</p>
+                <button class="make-booking-btn" id="makeBookingBtnManager">Make Booking</button>
+            </section>
+            <h2 class="heading-manager-customer">Future Bookings</h2>
             <section class="list-bookings-manager" id="futureBookingsManager">
-                <h2 class="heading">Future Bookings</h2>
             </section>
-            <section class="list-bookings-manager" id="pastBookingsManager">
-                <h2 class="heading">Past Bookings</h2>
-            </section>
+            <h2 class="heading-manager-customer">Past Bookings</h2>
+            <section class="list-bookings-manager" id="pastBookingsManager"></section>
         `);
 
 }
@@ -184,11 +186,11 @@ const displayCustomerInfoManager = () => {
 const buildFutureCustomerBookingsManager =() => {
     customer.futureBookings.forEach(booking => {
             document.getElementById('futureBookingsManager').innerHTML += (`
-                <article class="customer-bookings-article" id="a${booking.id}">
-                    <p class="information">ID: ${booking.id}</p>
-                    <p class="information">Date: ${makeDateDisplay(booking.date)}</p>
-                    <p class="information">Room Number: ${booking.roomNumber}</p>
-                    <button class="cancel-btn" id="${booking.id}" data-bookingID="${booking.id}">Cancel Booking</button>
+                <article class="customer-booking-article" id="a${booking.id}">
+                    <p class="booking-info">ID: ${booking.id}</p>
+                    <p class="booking-info">Date: ${makeDateDisplay(booking.date)}</p>
+                    <p class="booking-info">Room Number: ${booking.roomNumber}</p>
+                    <button class="cancel-btn" id="${booking.id}" data-bookingID="${booking.id}">Cancel</button>
                 </article>
             `);
         });
@@ -210,7 +212,7 @@ const buildPastCustomerBookingsManager = () => {
 
 const confirmCancelManager = (bookingID) => {
     document.getElementById(bookingID).setAttribute('data-confirmCancel', 'true');
-    document.getElementById(bookingID).innerText = 'Confirm Cancelation';
+    document.getElementById(bookingID).innerText = 'Confirm';
 
 }
 
@@ -230,14 +232,14 @@ const makeBookingDashManager = () => {
             <button class="nav-btn" id="managerFindCustomerBtn"><i class="fa-solid fa-bell-concierge"></i> Find a Customer</button>
         </nav>
         <section class="book-for-customer-section" id="bookForCustomerSection">
-            <h1 class="heading">Let's make your customers booking.</h1>
-            <form class="form" id="roomPickerManager">
+            <h1 class="manager-book-room-heading">Let's make your customer's booking.</h1>
+            <form class="room-picker-manager-form" id="roomPickerManager">
                 <label class="search-label" for="stay-date">Pick your stay date: </label>
                 <input class="search-intput-calander" type="date" id="datePickerManager" name="stay-date" value="${getTodaysDate().split('/').join('-')}" min="${getTodaysDate().split('/').join('-')}" max="2024-01-01">
-                <input class="search-button" id="roomPickerBtnManager" type="submit" value="Find Rooms">
+                <input class="search-btn" id="roomPickerBtnManager" type="submit" value="Find Rooms">
             </form>
-            <section class="manager-display-availible-rooms" id="availibleRoomSectionManager"></section>
         </section>
+        <section class="manager-display-availible-rooms" id="availibleRoomSectionManager"></section>
     `)
 
 } 
@@ -245,8 +247,9 @@ const makeBookingDashManager = () => {
 const displayAvailibleRoomsManager = (date) => {
     const availibleRooms = hotel.getAvailibleAndUnavailibleRooms(date).availibleRooms
     if (!availibleRooms.length) {
-        document.getElementById('availibleRoomSectionManager').innerHTML = ('<h1 class="heading">We\'re so sorry. Looks like we are all booked up for this night.</h1>');
+        document.getElementById('availibleRoomSectionManager').innerHTML = ('<h1 class="heading-no-rooms">We\'re so sorry. Looks like we are all booked up for this night.</h1>');
     } else {
+        document.getElementById('availibleRoomSectionManager').innerHTML = "";
         displayAvailibleUnfilteredRooms({rooms: availibleRooms, date: date, element: document.getElementById('availibleRoomSectionManager')});
     }
 
@@ -259,12 +262,14 @@ const displayManagerDash = () => {
         <nav class="nav">
             <button class="nav-btn" id="managerFindCustomerBtn"><i class="fa-solid fa-bell-concierge"></i> Find a Customer</button>
         </nav>
-        <h1 class="heading" id="managerDashHeading">Welcome, thanks for being here!</h1>
+        <div class="manager-heading-wrapper">
+            <h1 class="heading" id="managerDashHeading">Welcome, thanks for being here!</h1>
+        </div>
         <section class="daily-stats-section" id="dailyStatsSection">
-            <h2 class="heading-two">Here are today's stats.</h2>
-            <p class="information">There are ${hotel.getAvailibleAndUnavailibleRooms(getTodaysDate()).availibleRooms.length} availible rooms.</p>
-            <p class="information">There are ${hotel.getAvailibleAndUnavailibleRooms(getTodaysDate()).unavailibleRooms.length} unavailible rooms.</p>
-            <p class="information">There is ${manager.getPercentAvailibleRooms({allRooms: hotel.allRooms, allBookings: hotel.allBookings, date: getTodaysDate()})} of rooms booked for tonight.</p>
+            <h2 class="heading-two-stats">Here are today's stats.</h2>
+            <p class="stats-info"><i class="fa-solid fa-book-open"></i> There are ${hotel.getAvailibleAndUnavailibleRooms(getTodaysDate()).availibleRooms.length} availible rooms.</p>
+            <p class="stats-info"><i class="fa-solid fa-book"></i> There are ${hotel.getAvailibleAndUnavailibleRooms(getTodaysDate()).unavailibleRooms.length} unavailible rooms.</p>
+            <p class="stats-info"><i class="fa-solid fa-chart-line"></i> There is ${manager.getPercentAvailibleRooms({allRooms: hotel.allRooms, allBookings: hotel.allBookings, date: getTodaysDate()})} of rooms booked for tonight.</p>
         </section>
     `);
 
@@ -275,18 +280,19 @@ const displayCustomerDash = () => {
         <nav class="nav">
             <button class="nav-btn" id="bookRoomBtn"><i class="fa-solid fa-bell-concierge"></i> Book a Room</button>
         </nav>
-        <h1 class="heading">Welcome back ${customer.name}!</h1>
-        <section class="upcoming-bookings-section" id="upcomingBookingSection">
-            <h2 class="heading-two">Upcoming Bookings</h2>
-        </section>
-        <section class="past-bookings-section" id="pastBookingSection">
-            <h2 class="heading-two">Past Bookings</h2>
-        </section>
+        <div class="customer-heading-wrapper">
+            <h1 class="heading customer-dash-heading white-font">Welcome back ${customer.name}!</h1>
+        </div>
+        <h2 class="heading-two booking-heading white-font">Upcoming Bookings</h2>
+        <section class="bookings-section" id="upcomingBookingSection"></section>
+        <h2 class="heading-two booking-heading white-font">Past Bookings</h2>
+        <section class="bookings-section" id="pastBookingSection"></section>
         <section class="total-spent-section" id="totalSpentSection">
             <h2 class="heading-two">Total Amount Spent on Past Bookings</h2>
-            <p class="information">$${customer.returnTotalSpent(hotel.allRooms)}</p>
+            <p class="amount-spent">$${customer.returnTotalSpent(hotel.allRooms)}</p>
         </section>
 `);
+
     buildBookings({bookings: customer.futureBookings, elementID: 'upcomingBookingSection'});
     buildBookings({bookings: customer.pastBookings, elementID: 'pastBookingSection'});
         
@@ -300,17 +306,20 @@ const showSelectBooking = (bookingIDAndRoom) => {
             <button class="nav-btn" id="dashBtn"><i class="fa-solid fa-bed"></i> Dashboard</book>
             <button class="nav-btn" id="bookRoomBtn"><i class="fa-solid fa-bell-concierge"></i> Book a Room</button>
         </nav>
-        <h1 class="heading">A Beautiful ${makeUpperCase(bookingIDAndRoom.selectedRoom.roomType)}</h1>
-        <p class="information">Cost Per Night: $${bookingIDAndRoom.selectedRoom.costPerNight}</p>
-        <ul class="list">
-            <li>${makeUpperCase(bookingIDAndRoom.selectedRoom.bedSize)} bed</li>
-            <li>Has ${bookingIDAndRoom.selectedRoom.numBeds} bed(s)</li>
-            <li>${hasBidet}</li>
-            <li>The room number is ${bookingIDAndRoom.selectedRoom.number}</li>
-        </ul>
+        <div class="room-display-wrapper" id="roomDisplayWrapper">
+            <h1 class="heading">A Beautiful ${makeUpperCase(bookingIDAndRoom.selectedRoom.roomType)}</h1>
+            <p class="information">Cost Per Night: $${bookingIDAndRoom.selectedRoom.costPerNight}</p>
+            <ul class="list">
+                <li><i class="fa-solid fa-asterisk"></i> ${makeUpperCase(bookingIDAndRoom.selectedRoom.bedSize)} bed</li>
+                <li><i class="fa-solid fa-asterisk"></i> Has ${bookingIDAndRoom.selectedRoom.numBeds} bed(s)</li>
+                <li><i class="fa-solid fa-asterisk"></i> ${hasBidet}</li>
+                <li><i class="fa-solid fa-asterisk"></i> The room number is ${bookingIDAndRoom.selectedRoom.number}</li>
+            </ul>
+        </div>
     `);
+    
     if (selectedBooking.date >= getTodaysDate()) {
-        dashboardSectionCustomer.innerHTML += (`
+        document.getElementById('roomDisplayWrapper').innerHTML += (`
             <p class="information">Your booking is for ${makeDateDisplay(selectedBooking.date)}</p>
             <button class="cancel-btn" id="cancelBtn" data-selectedBookingID="${selectedBooking.id}"><i class="fa-solid fa-rectangle-xmark"></i> Cancel Booking</button>
     `);
@@ -320,10 +329,10 @@ const showSelectBooking = (bookingIDAndRoom) => {
     
 const confirmCancelCustomer = (bookingID) => {
     document.getElementById('cancelBtn').remove();
-    dashboardSectionCustomer.innerHTML += (`
+    document.getElementById('roomDisplayWrapper').innerHTML += (`
         <form class="form">
             <lable class="search-label" for="confirm-cancel">Are you sure you want too cancel?</label>
-            <input class="search-btn" id="confirmCancelBtn" type="submit" name="confirm-cancel" value="Confirm" data-selectedBookingID="${bookingID}">
+            <input class="cancel-btn" id="confirmCancelBtn" type="submit" name="confirm-cancel" value="Confirm" data-selectedBookingID="${bookingID}">
         </form>
     `);
 
@@ -353,13 +362,15 @@ const bookRoomCustomer = () => {
         <nav class="nav">
             <button class="nav-btn" id="dashBtn"><i class="fa-solid fa-bed"></i> Dashboard</book>
         </nav>
-        <h1 class="heading">Let's find your perfect room.</h1>
-        <p class="information">Pick the date of your stay.</p>
-        <form id="roomPicker">
-            <label class="search-label" for="stay-date">Pick your stay date: </label>
-            <input class="search-intput-calander" type="date" id="datePicker" name="stay-date" value="${getTodaysDate().split('/').join('-')}" min="${getTodaysDate().split('/').join('-')}" max="2024-01-01">
-            <input class="search-btn" id="roomPickerBtn" type="submit" value="Find Rooms">
-        </form>
+        <section class="find-room-wrapper">
+            <h1 class="heading find-room-heading">Let's find your perfect room.</h1>
+            <p class="information pick-date-info">Pick the date of your stay.</p>
+            <form class="room-picker" id="roomPicker">
+                <label class="search-label" for="stay-date">Pick your stay date: </label>
+                <input class="search-intput-calander" type="date" id="datePicker" name="stay-date" value="${getTodaysDate().split('/').join('-')}" min="${getTodaysDate().split('/').join('-')}" max="2024-01-01">
+                <input class="find-btn" id="roomPickerBtn" type="submit" value="Find Rooms">
+            </form>
+        </section>
     `);
 
 }
@@ -374,11 +385,13 @@ const displayAvailibleRooms = (dateAndElement) => {
     const availibleRooms = hotel.getAvailibleAndUnavailibleRooms(dateAndElement.date).availibleRooms;
     if (!availibleRooms.length) {
         dateAndElement.element.innerHTML += (`
-            <h1 class="heading">There are no availible rooms for ${makeDateDisplay(dateAndElement.date)}.</h1>
-            <p class="information">We're so sorry! We are looking forward to having you, can you come another night?</p>
-            <button class="search-btn" id="returnToPickerBtn">Pick another Date</button>
+            <div class="no-rooms-availible">
+                <h1 class="heading">There are no availible rooms for ${makeDateDisplay(dateAndElement.date)}.</h1>
+                <p class="information">We're so sorry! We are looking forward to having you, can you come another night?</p>
+                <button class="search-btn" id="returnToPickerBtn">Pick another Date</button>
+            </div>
         `)
-    } else {
+    } else {    
         displayAvailibleUnfilteredRooms({rooms: availibleRooms, date: dateAndElement.date, element: dateAndElement.element});
     }
         
@@ -403,9 +416,9 @@ const displayFilteredRoomDetails = (dateAndRoomType) => {
 
 const displayAvailibleUnfilteredRooms = (roomsDateAndElement) => {
     roomsDateAndElement.element.innerHTML += (`
-            <h1 class="heading" id="roomPickerHeading">Here are all availible rooms for ${makeDateDisplay(roomsDateAndElement.date)}.</h1>
-            <form class="form" id="filterRooms">
-                <label class="search-label" for="room-type">Filter rooms by type: </lable>
+            <h1 class="heading availible-room-heading" id="roomPickerHeading">Here are all availible rooms for ${makeDateDisplay(roomsDateAndElement.date)}.</h1>
+            <form class="form-filter" id="filterRooms">
+                <label class="search-label-filter" for="room-type">Filter rooms by type: </label>
                 <select class="room-type-select" id="filterRoomChoice" name="room-type">
                     <option class="room-type-option" value="">All Availible</option>
                     <option class="room-type-option" value="residential suite">Residential Suite</option>
@@ -413,29 +426,29 @@ const displayAvailibleUnfilteredRooms = (roomsDateAndElement) => {
                     <option class="room-type-option" value="single room">Single Room</option>
                     <option class="room-type-option" value="junior suite">Junior Suite</option>
                 </select> 
-                <input class="search-btn" id="roomFilterBtn" type="button" value="Filter" data-date="${roomsDateAndElement.date}">
+                <input class="search-btn-filter" id="roomFilterBtn" type="button" value="Filter" data-date="${roomsDateAndElement.date}">
             </form>
             <section class="availible-room-section" id="availibleRoomSection"></section>
-            `)   
+        `)   
     displayRoomsAndDetails({rooms: roomsDateAndElement.rooms, date: roomsDateAndElement.date, element: 'availibleRoomSection'})
         
 }
 
 const displayRoomsAndDetails = (roomsDateAndElementID) => {
     document.getElementById(roomsDateAndElementID.element).innerHTML = '';
-    roomsDateAndElementID.rooms.forEach(room => {
+    roomsDateAndElementID.rooms.forEach((room, i) => {
         const hasBidet = room.bidet ? 'Has a bidet' : 'Doesn\'t have a bidet';
         document.getElementById(roomsDateAndElementID.element).innerHTML += (`
-            <article class="room-wrapper" id="room${room.number}">
-                <p class="informatuon">${makeUpperCase(room.roomType)}</p>
+            <article class="room-wrapper ${room.roomType.split(' ').join('-')}" id="room${room.number}">
+                <p class="room-filter-info">${makeUpperCase(room.roomType)}</p>
                 <ul class="list">
-                    <li>Room number ${room.number}</li>
-                    <li>${makeUpperCase(room.bedSize)} bed</li>
-                    <li>${room.numBeds} bed(s)</li>
-                    <li>${hasBidet}</li>
-                    <li>$${room.costPerNight} per night</li> 
+                    <li class="room-filter-info">Room number ${room.number}</li>
+                    <li class="room-filter-info">${makeUpperCase(room.bedSize)} bed</li>
+                    <li class="room-filter-info">${room.numBeds} bed(s)</li>
+                    <li class="room-filter-info">${hasBidet}</li>
+                    <li class="room-filter-info">$${room.costPerNight} per night</li> 
                 </ul>
-                <button class="search-btn" id="selectRoomBtn${room.number}" data-date="${roomsDateAndElementID.date}" data-roomNumber="${room.number}">Book</button>
+                <button class="book-btn" id="selectRoomBtn${room.number}" data-date="${roomsDateAndElementID.date}" data-roomNumber="${room.number}">Book</button>
             </article>
         `);
     });
@@ -449,18 +462,20 @@ const displayConfirmBooking = (dateAndRoomNum) => {
             <button class="nav-btn" id="dashBtn"><i class="fa-solid fa-bed"></i> Dashboard</book>
             <button class="nav-btn" id="backToSelectRoom" data-date="${dateAndRoomNum.date}">Back</button>
         </nav>
-        <h1 class="heading">Let's confirm your booking details.</h1>
-        <p class="information">You have not booked this room yet, confirm below to book this room.</p>
-        <ul class="list">
-            <li>Booking Date: ${makeDateDisplay(dateAndRoomNum.date)}</li>
-            <li>Room Type: ${selectedRoom.roomType}</li>
-            <li>Room Number: ${selectedRoom.number}</li>
-            <li>Bed Size: ${selectedRoom.bedSize}</li>
-            <li>Number of Beds: ${selectedRoom.numBeds}</li>
-            <li>Cost Per Night: $${selectedRoom.costPerNight}</li>
-        </ul>
-        <p class="hidden" id="bookingError"></p>
-        <button class="search-btn" id="confirmBookingBtn" data-date="${dateAndRoomNum.date}" data-roomNumber="${dateAndRoomNum.roomNumber}">Confirm Booking</button>    
+        <section class="confirm-booking-customer">
+            <h1 class="heading">Let's confirm your booking details.</h1>
+            <p class="information">You have not booked this room yet, confirm below to book this room.</p>
+            <ul class="list">
+                <li><i class="fa-solid fa-asterisk"></i> Booking Date: ${makeDateDisplay(dateAndRoomNum.date)}</li>
+                <li><i class="fa-solid fa-asterisk"></i> Room Type: ${selectedRoom.roomType}</li>
+                <li><i class="fa-solid fa-asterisk"></i> Room Number: ${selectedRoom.number}</li>
+                <li><i class="fa-solid fa-asterisk"></i> Bed Size: ${selectedRoom.bedSize}</li>
+                <li><i class="fa-solid fa-asterisk"></i> Number of Beds: ${selectedRoom.numBeds}</li>
+                <li><i class="fa-solid fa-asterisk"></i> Cost Per Night: $${selectedRoom.costPerNight}</li>
+            </ul>
+            <p class="hidden" id="bookingError"></p>
+            <button class="confirm-btn" id="confirmBookingBtn" data-date="${dateAndRoomNum.date}" data-roomNumber="${dateAndRoomNum.roomNumber}">Confirm Booking</button>    
+        </section>
     `);
 
 }
@@ -515,20 +530,22 @@ const loginAsCustomer = (loginNum) => {
 
 window.addEventListener('load', () => {
     hideOff([loginSection]);
-    loginSection.innerHTML = (`
-        <h1 class="heading">Welcome to Overlook</h1>
-        <p class="login-description" id="loginDescription">Please sign in.</p>
-        <form class="login-form">
-            <div class="login-name-wrapper">
-                <label class="screen-reader-only" for="login-name">Login Name: </label>
-                <input class="login-name-input" id="loginName" type="text" name="login-name" placeholder="Login Name">
-            </div>
-            <div class="password-wrapper">
-                <label class="screen-reader-only" for="password">Password: </label>
-                <input class="password-input" id="password" type="password" name="password" placeholder="Password">
-            </div>
-            <input class="login-submit-btn" id="loginSubmitBtn" type="submit" value="Login"> 
-        <form>
+    loginSection.innerHTML = (` 
+        <div class="login-wrapper" id="loginWrapper">
+            <h1 class="heading login-heading">Welcome to Overlook</h1>
+            <p class="login-description" id="loginDescription">Please sign in.</p>
+            <form class="login-form">
+                <div class="login-name-wrapper">
+                    <label class="screen-reader-only" for="login-name">Login Name: </label>
+                    <input class="login-name-input" id="loginName" type="text" name="login-name" placeholder="Login Name">
+                </div>
+                <div class="password-wrapper">
+                    <label class="screen-reader-only" for="password">Password: </label>
+                    <input class="password-input" id="password" type="password" name="password" placeholder="Password">
+                </div>
+                <input class="login-submit-btn" id="loginSubmitBtn" type="submit" value="Login"> 
+            <form>
+        </div>
     `);
 
 });
@@ -595,6 +612,8 @@ bookRoomSectionCustomer.addEventListener('click', (event) => {
         displayAvailibleRooms({date: event.target.getAttribute('data-date'), element: bookRoomSectionCustomer});
     } else if (event.target.id === 'confirmBookingBtn') {
         confirmBooking({date: event.target.getAttribute('data-date'), roomNumber: event.target.getAttribute('data-roomNumber')});
+    } else if (event.target.id === 'returnToPickerBtn') {
+        bookRoomCustomer();
     }
 
 });
