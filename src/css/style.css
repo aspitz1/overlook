@@ -160,7 +160,6 @@ body {
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   background: #F1EFE9;
-  overflow: scroll;
 }
 
 .booking-detail-btn {
@@ -181,7 +180,7 @@ body {
   text-align: center;
   background: #A09D00;
   margin-bottom: 7vh;
-  padding: 10px;
+  padding: 20px;
   font-size: large;
   border-radius: 20px;
 }
@@ -293,7 +292,6 @@ body {
   background: #A09D00;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
-  overflow: scroll;
 }
 
 .availible-room-heading {
@@ -355,12 +353,16 @@ body {
 
 .heading-two-stats {
   text-align: center;
+  width: 100%;
   padding: 10px 0px 10px 0px;
   background: #34526E;
   color: #F1EFE9;
 }
 
 .daily-stats-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 60%;
   background: #F1EFE9;
   border-bottom-left-radius: 20px;
@@ -368,7 +370,10 @@ body {
 }
 
 .stats-info {
-  padding: 10px;
+  text-align: left;
+  width: 90%;
+  padding: 20px;
+  font-size: large;
 }
 
 .customer-search-heading {
@@ -394,9 +399,14 @@ body {
 
 .search-input {
   margin-bottom: 8px;
+  margin-bottom: 20px;
   padding: 5px;
   border: 0.07rem solid #232323;
   border-radius: 10px;
+}
+
+.search-btn {
+  margin-bottom: 20px;
 }
 
 .customer-info-heading {
@@ -442,7 +452,6 @@ body {
   background: #F1EFE9;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
-  overflow: scroll;
 }
 
 .make-booking-btn {

@@ -27,7 +27,7 @@ let customer;
 let manager;
 let hotel;
 
-const cancelMessege = '<h1>Your booking has been canceled. We are sorry you can\'t make it.</h1>';
+const cancelMessege = '<h1>Your booking has been canceled.</h1><p>We are sorry you can\'t make it.</p>';
 const bookedMessege = '<h1></><i class="fa-solid fa-face-smile-beam"></i> Your room has been booked!</h1><p>We are looking forward to your stay.</p>';
 
 /* UTILITY FUNCTIONS */
@@ -178,8 +178,7 @@ const displayCustomerInfoManager = () => {
             <section class="list-bookings-manager" id="futureBookingsManager">
             </section>
             <h2 class="heading-manager-customer">Past Bookings</h2>
-            <section class="list-bookings-manager" id="pastBookingsManager">
-            </section>
+            <section class="list-bookings-manager" id="pastBookingsManager"></section>
         `);
 
 }
@@ -234,7 +233,7 @@ const makeBookingDashManager = () => {
         </nav>
         <section class="book-for-customer-section" id="bookForCustomerSection">
             <h1 class="manager-book-room-heading">Let's make your customer's booking.</h1>
-            <form class="form" id="roomPickerManager">
+            <form class="room-picker-manager-form" id="roomPickerManager">
                 <label class="search-label" for="stay-date">Pick your stay date: </label>
                 <input class="search-intput-calander" type="date" id="datePickerManager" name="stay-date" value="${getTodaysDate().split('/').join('-')}" min="${getTodaysDate().split('/').join('-')}" max="2024-01-01">
                 <input class="search-button" id="roomPickerBtnManager" type="submit" value="Find Rooms">
