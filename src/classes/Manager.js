@@ -15,10 +15,10 @@ class Manager {
         return customer ? customer : 'There was no customer found with this name.';
     }
 
-    getPercentAvailibleRooms(allRoomsAllBookingsAndDate) {
-        const unavailibleRoomNumbers = allRoomsAllBookingsAndDate.allBookings.filter(booking => booking.date === allRoomsAllBookingsAndDate.date)
+    getPercentAvailableRooms(allRoomsAllBookingsAndDate) {
+        const unavailableRoomNumbers = allRoomsAllBookingsAndDate.allBookings.filter(booking => booking.date === allRoomsAllBookingsAndDate.date)
             .map(booking => booking.roomNumber);
-        return `${Math.floor((unavailibleRoomNumbers.length / allRoomsAllBookingsAndDate.allRooms.length) * 100)}%`
+        return `${Math.floor((unavailableRoomNumbers.length / allRoomsAllBookingsAndDate.allRooms.length) * 100)}%`
     }
 
 }

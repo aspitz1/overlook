@@ -15,12 +15,12 @@ class Hotel {
         return bookings.map(booking => new Booking(booking));
     }
 
-    getAvailibleAndUnavailibleRooms(date) {
-        const unavailibleRoomNums = this.allBookings.filter(booking => booking.date === date)
+    getAvailableAndUnavailableRooms(date) {
+        const unavailableRoomNums = this.allBookings.filter(booking => booking.date === date)
             .map(booking => booking.roomNumber);
        
-        return {availibleRooms: this.allRooms.filter(room => !unavailibleRoomNums.includes(room.number)),
-            unavailibleRooms: this.allRooms.filter(room => unavailibleRoomNums.includes(room.number))};
+        return {availableRooms: this.allRooms.filter(room => !unavailableRoomNums.includes(room.number)),
+            unavailableRooms: this.allRooms.filter(room => unavailableRoomNums.includes(room.number))};
     }
 
     makeBookingObj(bookingData) {

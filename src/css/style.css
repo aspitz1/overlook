@@ -276,7 +276,7 @@ body {
   border: 0.07rem solid #A09D00;
 }
 
-.availible-room-section {
+.available-room-section {
   width: 100%;
   height: 100%;
   display: grid;
@@ -289,7 +289,7 @@ body {
   border-bottom-right-radius: 10px;
 }
 
-.availible-room-heading {
+.available-room-heading {
   width: 100%;
   margin-top: 100px;
   margin-bottom: 0px;
@@ -315,7 +315,7 @@ body {
   padding: 0px 3px 3px 3px;
 }
 
-.no-rooms-availible {
+.no-rooms-available {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -524,7 +524,7 @@ body {
   margin-bottom: 20px;
 }
 
-.manager-display-availible-rooms {
+.manager-display-available-rooms {
   width: 75%;
 }
 

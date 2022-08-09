@@ -38,8 +38,8 @@ describe('Manager', () => {
     });
 
     it('Should give percentage of availible rooms rounded down to nearest whole', () => {
-        const percentAvailibleRooms = manager.getPercentAvailibleRooms({allRooms: rooms, allBookings: bookings, date: "2023/02/23"});
-        expect(percentAvailibleRooms).to.equal('14%');
+        const percentAvailableRooms = manager.getPercentAvailableRooms({allRooms: rooms, allBookings: bookings, date: "2023/02/23"});
+        expect(percentAvailableRooms).to.equal('14%');
     });
 
 });

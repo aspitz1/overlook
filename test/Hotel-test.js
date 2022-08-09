@@ -28,13 +28,13 @@ describe('Hotel', () => {
         expect(hotel.allBookings).to.deep.equal(bookings);
     });
 
-    it('Should return all availible rooms', () => {
-        const availibleRooms = hotel.getAvailibleAndUnavailibleRooms('2023/10/23').availibleRooms;
-        expect(availibleRooms).to.deep.equal([rooms[0], rooms[1], rooms[2], rooms[3], rooms[4], rooms[5]]);
+    it('Should return all available rooms', () => {
+        const availableRooms = hotel.getAvailableAndUnavailableRooms('2023/10/23').availableRooms;
+        expect(availableRooms).to.deep.equal([rooms[0], rooms[1], rooms[2], rooms[3], rooms[4], rooms[5]]);
     });
 
     it('Should return all booked rooms', () => {
-        const bookedRooms = hotel.getAvailibleAndUnavailibleRooms('2023/02/23').unavailibleRooms;
+        const bookedRooms = hotel.getAvailableAndUnavailableRooms('2023/02/23').unavailableRooms;
         expect(bookedRooms).to.deep.equal([rooms[4]]);
     });
 
@@ -47,7 +47,7 @@ describe('Hotel', () => {
         });
     });
 
-    it('Should filter availible rooms by their room type', () => {
+    it('Should filter available rooms by their room type', () => {
         const filteredRooms = hotel.filterRoomsByType({rooms: [rooms[0], rooms[1], rooms[2], rooms[3], rooms[4], rooms[5]], roomType: 'single room'});
         expect(filteredRooms).to.deep.equal([rooms[2], rooms[3], rooms[4]]);
     });
