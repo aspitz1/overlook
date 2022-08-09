@@ -161,7 +161,7 @@ const displayCustomer = (customerData) => {
         buildPastCustomerBookingsManager();
     } else {
         dashboardSectionManager.innerHTML += (`
-            <h1 class="heading">${customerData}<h1>
+            <h1 class="no-customer-found">${customerData}<h1>
         `);
     }
 }

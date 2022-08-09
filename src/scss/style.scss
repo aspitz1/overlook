@@ -201,7 +201,8 @@ body {
 // ROOM INFO VIEW
 .room-display-wrapper,
 .confirm-booking-customer,
-.status-msg-wrapper {
+.status-msg-wrapper,
+.no-customer-found {
     width: 50vw;
     padding: 40px;
     margin-top: 150px;
@@ -413,6 +414,10 @@ body {
 
 .search-btn {
     margin-bottom: 20px;
+}
+
+.no-customer-found {
+    text-align: center;
 }
 
 // DISPLAY CUSTOMER INFO

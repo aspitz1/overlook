@@ -5,6 +5,7 @@
 # Tech Stack 
 * HTML
 * JavaScript
+* Fetch API
 * Sass
 * Chai
 * Web-Pack
@@ -32,5 +33,29 @@ Overlook is a hotel booking app simulation. It is a simply styled tool that walk
     * Manager dash displays:
         * Total number of unavailable rooms
         * Total number of available  rooms
+        * Percent of rooms booked
+* Both Customer and Manager can book rooms filtering by date and room type
+
+**Customer View**
+<br>
+![Customer gif](/src/images/overlook-customer.gif)
+
+**Manager View**
+<br>
+![Manager gif](/src/images/overlook-manager.gif)
+# Project Wins
+* Updated the DOM in a way that took asynchronous functions into account
+* Followed TDD
+* Stuck to MVP in order to finish on time without too much stress
+* Used CSS Grid successfully 
+* Continued to progress with learning SASS
+# What Was Learned
+* Consider setting a stronger style guide in the future that creates more reusable layouts
+* Use `createElement/appendChild` vs `innerHTML`
+* Use an array of images that correspond with room types to display with available rooms
+* Consider using routing to make the site more accessible
+# Contributors 
+* [Anna Spitz](https://github.com/aspitz1)
+
 
 
