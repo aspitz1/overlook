@@ -116,7 +116,7 @@ const buildBookings = (bookingsAndElementID) => {
         bookingsAndElementID.bookings.forEach(booking => {
             const room = hotel.findRoom(booking.roomNumber);
             document.querySelector(`#${bookingsAndElementID.elementID}`).innerHTML += (`
-                <button class="booking-detail-btn" id="bookingDetailBtn" type="button" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">
+                <button class="booking-detail-btn" type="button" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">
                     <p class="information" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">${makeDateDisplay(booking.date)}</p>
                     <p class="information" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Room Number: ${booking.roomNumber}</p>
                     <p class="information" data-bookingID="${booking.id}" data-roomNum="${booking.roomNumber}" data-date="${booking.date}">Cost Per Night: $${room.costPerNight}</p>
@@ -281,11 +281,11 @@ const displayCustomerDash = () => {
             <button class="nav-btn" id="bookRoomBtn"><i class="fa-solid fa-bell-concierge"></i> Book a Room</button>
         </nav>
         <div class="customer-heading-wrapper">
-            <h1 class="heading customer-dash-heading white-font">Welcome back ${customer.name}!</h1>
+            <h1 class="heading customer-dash-heading">Welcome back ${customer.name}!</h1>
         </div>
-        <h2 class="heading-two booking-heading white-font">Upcoming Bookings</h2>
+        <h2 class="heading-two booking-heading">Upcoming Bookings</h2>
         <section class="bookings-section" id="upcomingBookingSection"></section>
-        <h2 class="heading-two booking-heading white-font">Past Bookings</h2>
+        <h2 class="heading-two booking-heading">Past Bookings</h2>
         <section class="bookings-section" id="pastBookingSection"></section>
         <section class="total-spent-section" id="totalSpentSection">
             <h2 class="heading-two">Total Amount Spent on Past Bookings</h2>

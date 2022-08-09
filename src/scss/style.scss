@@ -36,10 +36,6 @@ body {
     text-align: center;
 }
 
-.white-font {
-    color: $grey-white;
-}
-
 .list {
     padding-bottom: 10px;
     list-style: none;
@@ -158,7 +154,7 @@ body {
     margin-bottom: 0px;
     padding: 10px 20px;
     background-color: $woods;
-    color: $grey-white;
+    color: $black;
     border-top-left-radius: $round-corners-large;
     border-top-right-radius: $round-corners-large;
 }
