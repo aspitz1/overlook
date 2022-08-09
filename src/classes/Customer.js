@@ -18,7 +18,8 @@ class Customer {
         }
         
         return {
-            futureBookings: allBookings.filter(booking => booking.date >= getTodaysDate() && booking.userID === this.id),
+            futureBookings: allBookings.filter(booking => booking.date >= getTodaysDate() && booking.userID === this.id)
+                .reverse(),
             pastBookings: allBookings.filter(booking => booking.date < getTodaysDate() && booking.userID === this.id)
         };
     }
