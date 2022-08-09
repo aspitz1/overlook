@@ -319,6 +319,16 @@ body {
   padding: 0px 3px 3px 3px;
 }
 
+.no-rooms-availible {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 150px;
+  background: #F1EFE9;
+  border-radius: 20px;
+  padding: 20px;
+}
+
 .book-btn {
   margin-left: 3px;
   margin-bottom: 3px;
@@ -342,7 +352,7 @@ body {
 }
 
 .manager-heading-wrapper {
-  width: 60%;
+  width: 75%;
   margin-top: 150px;
   padding: 10px 0px 10px 0px;
   background: #A09D00;
@@ -362,7 +372,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 60%;
+  width: 75%;
   background: #F1EFE9;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
@@ -377,7 +387,7 @@ body {
 
 .customer-search-heading {
   text-align: center;
-  width: 60%;
+  width: 75%;
   margin-top: 150px;
   background: #A09D00;
   padding: 20px 0px 10px 5px;
@@ -389,7 +399,7 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 60%;
+  width: 75%;
   background: #F1EFE9;
   padding: 20px 0px 10px 5px;
   border-bottom-left-radius: 20px;
@@ -410,7 +420,7 @@ body {
 
 .customer-info-heading {
   text-align: center;
-  width: 60%;
+  width: 75%;
   margin-top: 150px;
   margin-bottom: 30px;
   padding: 20px 0 20px 0;
@@ -421,7 +431,7 @@ body {
 
 .customer-date-wrapper {
   text-align: center;
-  width: 60%;
+  width: 75%;
   margin-bottom: 20px;
   padding-top: 10px;
   padding-bottom: 10px;
@@ -435,7 +445,7 @@ body {
 
 .heading-manager-customer {
   text-align: center;
-  width: 60%;
+  width: 75%;
   padding: 10px 0px;
   background-color: #A09D00;
   border-top-left-radius: 20px;
@@ -443,7 +453,7 @@ body {
 }
 
 .list-bookings-manager {
-  width: 60%;
+  width: 75%;
   margin-bottom: 30px;
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -492,8 +502,17 @@ body {
   flex-direction: column;
   align-items: center;
   margin-top: 150px;
-  width: 60%;
+  width: 75%;
   background: #F1EFE9;
+  border-radius: 20px;
+}
+
+.heading-no-rooms {
+  text-align: center;
+  width: 100%;
+  margin-top: 100px;
+  padding: 20px 0px;
+  background: #A09D00;
   border-radius: 20px;
 }
 
@@ -507,6 +526,10 @@ body {
 
 .room-picker-manager-form {
   margin-bottom: 20px;
+}
+
+.manager-display-availible-rooms {
+  width: 75%;
 }
 
 .hidden {

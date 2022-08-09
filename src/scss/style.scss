@@ -327,6 +327,14 @@ body {
     padding: 0px 3px 3px 3px;
 }
 
+.no-rooms-availible {
+    @include flex;
+    margin-top: 150px;
+    background: $grey-white;
+    border-radius: $round-corners-large;
+    padding: 20px;
+}
+
 .book-btn {
     margin-left: 3px;
     margin-bottom: 3px;
@@ -348,7 +356,7 @@ body {
     width: 100vw;
 }
 .manager-heading-wrapper {
-    width: 60%;
+    width: 75%;
     margin-top: 150px;
     padding: 10px 0px 10px 0px;
     background: $woods;
@@ -366,7 +374,7 @@ body {
 
 .daily-stats-section {
     @include flex;
-    width: 60%;
+    width: 75%;
     background: $grey-white;
     border-bottom-left-radius: $round-corners-large;
     border-bottom-right-radius: $round-corners-large;
@@ -382,7 +390,7 @@ body {
 // CUSTOMER SEARCH
 .customer-search-heading {
     text-align: center;
-    width: 60%;
+    width: 75%;
     margin-top: 150px;
     background: $woods;
     padding: 20px 0px 10px 5px;
@@ -392,7 +400,7 @@ body {
 
 .search-customer-wrapper {
     @include flex;
-    width: 60%;
+    width: 75%;
     background: $grey-white;
     padding: 20px 0px 10px 5px;
     border-bottom-left-radius: $round-corners-large;
@@ -414,7 +422,7 @@ body {
 // DISPLAY CUSTOMER INFO
 .customer-info-heading {
     text-align: center;
-    width: 60%;
+    width: 75%;
     margin-top: 150px;
     margin-bottom: 30px;
     padding: 20px 0 20px 0;
@@ -425,7 +433,7 @@ body {
 
 .customer-date-wrapper {
     text-align: center;
-    width: 60%;
+    width: 75%;
     margin-bottom: 20px;
     padding-top: 10px;
     padding-bottom: 10px;
@@ -439,7 +447,7 @@ body {
 
 .heading-manager-customer {
     text-align: center;
-    width: 60%;
+    width: 75%;
     padding: 10px 0px;
     background-color: $woods;
     border-top-left-radius: $round-corners-large;
@@ -447,7 +455,7 @@ body {
 }
 
 .list-bookings-manager {
-    width: 60%;
+    width: 75%;
     margin-bottom: 30px;
     display: grid;
     grid-template-columns: repeat(6, 1fr);
@@ -491,8 +499,17 @@ body {
 .book-for-customer-section {
     @include flex;
     margin-top: 150px;
-    width: 60%;
+    width: 75%;
     background: $grey-white;
+    border-radius: $round-corners-large;
+}
+
+.heading-no-rooms {
+    text-align: center;
+    width: 100%;
+    margin-top: 100px;
+    padding: 20px 0px;
+    background: $woods;
     border-radius: $round-corners-large;
 }
 
@@ -508,7 +525,9 @@ body {
     margin-bottom: 20px;
 }
 
-// .room-picker-manager-form
+.manager-display-availible-rooms {
+    width: 75%;
+}
 
 // UTILITY STYLES
 .hidden {

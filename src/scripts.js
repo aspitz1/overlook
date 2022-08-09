@@ -212,7 +212,7 @@ const buildPastCustomerBookingsManager = () => {
 
 const confirmCancelManager = (bookingID) => {
     document.getElementById(bookingID).setAttribute('data-confirmCancel', 'true');
-    document.getElementById(bookingID).innerText = 'Confirm Cancelation';
+    document.getElementById(bookingID).innerText = 'Confirm';
 
 }
 
@@ -238,7 +238,7 @@ const makeBookingDashManager = () => {
                 <input class="search-intput-calander" type="date" id="datePickerManager" name="stay-date" value="${getTodaysDate().split('/').join('-')}" min="${getTodaysDate().split('/').join('-')}" max="2024-01-01">
                 <input class="search-btn" id="roomPickerBtnManager" type="submit" value="Find Rooms">
             </form>
-            </section>
+        </section>
         <section class="manager-display-availible-rooms" id="availibleRoomSectionManager"></section>
     `)
 
@@ -247,8 +247,9 @@ const makeBookingDashManager = () => {
 const displayAvailibleRoomsManager = (date) => {
     const availibleRooms = hotel.getAvailibleAndUnavailibleRooms(date).availibleRooms
     if (!availibleRooms.length) {
-        document.getElementById('availibleRoomSectionManager').innerHTML = ('<h1 class="heading">We\'re so sorry. Looks like we are all booked up for this night.</h1>');
+        document.getElementById('availibleRoomSectionManager').innerHTML = ('<h1 class="heading-no-rooms">We\'re so sorry. Looks like we are all booked up for this night.</h1>');
     } else {
+        document.getElementById('availibleRoomSectionManager').innerHTML = "";
         displayAvailibleUnfilteredRooms({rooms: availibleRooms, date: date, element: document.getElementById('availibleRoomSectionManager')});
     }
 
@@ -384,9 +385,11 @@ const displayAvailibleRooms = (dateAndElement) => {
     const availibleRooms = hotel.getAvailibleAndUnavailibleRooms(dateAndElement.date).availibleRooms;
     if (!availibleRooms.length) {
         dateAndElement.element.innerHTML += (`
-            <h1 class="heading">There are no availible rooms for ${makeDateDisplay(dateAndElement.date)}.</h1>
-            <p class="information">We're so sorry! We are looking forward to having you, can you come another night?</p>
-            <button class="search-btn" id="returnToPickerBtn">Pick another Date</button>
+            <div class="no-rooms-availible">
+                <h1 class="heading">There are no availible rooms for ${makeDateDisplay(dateAndElement.date)}.</h1>
+                <p class="information">We're so sorry! We are looking forward to having you, can you come another night?</p>
+                <button class="search-btn" id="returnToPickerBtn">Pick another Date</button>
+            </div>
         `)
     } else {    
         displayAvailibleUnfilteredRooms({rooms: availibleRooms, date: dateAndElement.date, element: dateAndElement.element});
@@ -609,6 +612,8 @@ bookRoomSectionCustomer.addEventListener('click', (event) => {
         displayAvailibleRooms({date: event.target.getAttribute('data-date'), element: bookRoomSectionCustomer});
     } else if (event.target.id === 'confirmBookingBtn') {
         confirmBooking({date: event.target.getAttribute('data-date'), roomNumber: event.target.getAttribute('data-roomNumber')});
+    } else if (event.target.id === 'returnToPickerBtn') {
+        bookRoomCustomer();
     }
 
 });
