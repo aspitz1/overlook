@@ -236,10 +236,10 @@ const makeBookingDashManager = () => {
             <form class="room-picker-manager-form" id="roomPickerManager">
                 <label class="search-label" for="stay-date">Pick your stay date: </label>
                 <input class="search-intput-calander" type="date" id="datePickerManager" name="stay-date" value="${getTodaysDate().split('/').join('-')}" min="${getTodaysDate().split('/').join('-')}" max="2024-01-01">
-                <input class="search-button" id="roomPickerBtnManager" type="submit" value="Find Rooms">
+                <input class="search-btn" id="roomPickerBtnManager" type="submit" value="Find Rooms">
             </form>
-            <section class="manager-display-availible-rooms" id="availibleRoomSectionManager"></section>
-        </section>
+            </section>
+        <section class="manager-display-availible-rooms" id="availibleRoomSectionManager"></section>
     `)
 
 } 
@@ -553,11 +553,11 @@ loginSection.addEventListener('click', (event) => {
         const loginName = document.querySelector('#loginName').value;
         const password = document.querySelector('#password').value;
         const loginDescription = document.querySelector('#loginDescription');
-        loginAsManager();
         if (!loginName.length || !password.length) {
             loginDescription.innerHTML = '<i class="fa-solid fa-x"></i> Please enter your login name and password.';
             setError(loginDescription);
         } else if (password === 'overlook2021' && loginName === 'manager') {
+            loginAsManager();
         } else if (password === 'overlook2021' && loginName.includes('customer') && loginName.replace('customer', '') <= 50) {
             loginAsCustomer(loginName.replace('customer', ''));
         } else {

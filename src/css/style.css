@@ -228,8 +228,7 @@ body {
   align-items: center;
 }
 
-.find-room-wrapper,
-.book-for-customer-section {
+.find-room-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -488,12 +487,26 @@ body {
   width: 100vw;
 }
 
+.book-for-customer-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 150px;
+  width: 60%;
+  background: #F1EFE9;
+  border-radius: 20px;
+}
+
 .manager-book-room-heading {
   text-align: center;
-  margin-top: 20px;
+  margin: 20px 0px;
   width: 100%;
   padding: 10px 0px;
   background: #F1EFE9;
+}
+
+.room-picker-manager-form {
+  margin-bottom: 20px;
 }
 
 .hidden {

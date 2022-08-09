@@ -240,8 +240,7 @@ body {
     @include flex;
 }
 
-.find-room-wrapper,
-.book-for-customer-section {
+.find-room-wrapper {
     @include flex;
     width: 60vh;
     height: 60vh;
@@ -489,12 +488,24 @@ body {
     width: 100vw;
 }
 
+.book-for-customer-section {
+    @include flex;
+    margin-top: 150px;
+    width: 60%;
+    background: $grey-white;
+    border-radius: $round-corners-large;
+}
+
 .manager-book-room-heading {
     text-align: center;
-    margin-top: 20px;
+    margin: 20px 0px;
     width: 100%;
     padding: 10px 0px;
     background: $grey-white;
+}
+
+.room-picker-manager-form {
+    margin-bottom: 20px;
 }
 
 // .room-picker-manager-form
