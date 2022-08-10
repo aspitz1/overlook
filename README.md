@@ -20,11 +20,12 @@ When that is done, clone down this repo and run these commands:
 * `npm start`
 * navigate to ` http://localhost:8080/` in you browser
 # What Overlook Does
-Overlook is a hotel booking app simulation. It is a simply styled tool that walks you through booking a room as a customer and as a manager. 
+Overlook is a hotel booking simulation app. It is a simply styled tool that helps you through booking a room as a customer and as a manager. 
 # Features 
-* Login page where you would log in as a customer
+* Login page where you would log in as a customer or manager
     * login name: `customer<any number between 1-50>` (example: `customer23`)
     * password: `overlook2021`
+    * login as a manager by using the login nama `manager` with the same password
 * Dashboard that displays information based on Customer or Manager
     * Customer dash displays:
         * Future bookings with option to cancel
