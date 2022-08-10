@@ -27,8 +27,8 @@ let customer;
 let manager;
 let hotel;
 
-const cancelMessege = '<h1>Your booking has been canceled.</h1><p>We are sorry you can\'t make it.</p>';
-const bookedMessege = '<h1></><i class="fa-solid fa-face-smile-beam"></i> Your room has been booked!</h1><p>We are looking forward to your stay.</p>';
+const cancelMessage = '<h1>Your booking has been canceled.</h1><p>We are sorry you can\'t make it.</p>';
+const bookedMessage = '<h1></><i class="fa-solid fa-face-smile-beam"></i> Your room has been booked!</h1><p>We are looking forward to your stay.</p>';
 
 /* UTILITY FUNCTIONS */
 
@@ -63,7 +63,7 @@ const makeDateDisplay = (date) => {
 
 /* FUNCTIONS */
 
-const refreshCustomerAndHotel = (statusMessege) => {
+const refreshCustomerAndHotel = (statusMessage) => {
     Promise.all([getFetch(`customers/${customer.id}`), getFetch('bookings')]) 
     .then(data => {
         customer = new Customer({customer: data[0], allBookings: data[1].bookings});
@@ -77,7 +77,7 @@ const refreshCustomerAndHotel = (statusMessege) => {
             </nav>
             <div class="status-msg-wrapper" id="statusMsgWrapper"></div>
             `)
-            document.getElementById('statusMsgWrapper').innerHTML = statusMessege;      
+            document.getElementById('statusMsgWrapper').innerHTML = statusMessage;      
         })
         .catch(err => {
             dashboardSectionCustomer.innerHTML = (`
@@ -91,13 +91,13 @@ const refreshCustomerAndHotel = (statusMessege) => {
 
 }
 
-const refreshManagerHoterAndCustomers = (cancledOrConfirmed) => {
+const refreshManagerHotelAndCustomers = (cancelOrConfirmed) => {
     Promise.all([getFetch('customers'), getFetch('rooms'), getFetch('bookings')])
         .then(data => {
             manager = new Manager({customers: data[0].customers, allBookings: data[2].bookings});
             hotel = new Hotel({allRooms: data[1].rooms, allBookings: data[2].bookings});
             displayManagerDash();
-            document.getElementById('managerDashHeading').innerText = `${customer.name}'s booking is ${cancledOrConfirmed}.`
+            document.getElementById('managerDashHeading').innerText = `${customer.name}'s booking is ${cancelOrConfirmed}.`
             customer = null;
         })
         .catch(error => {
@@ -175,8 +175,7 @@ const displayCustomerInfoManager = () => {
                 <button class="make-booking-btn" id="makeBookingBtnManager">Make Booking</button>
             </section>
             <h2 class="heading-manager-customer">Future Bookings</h2>
-            <section class="list-bookings-manager" id="futureBookingsManager">
-            </section>
+            <section class="list-bookings-manager" id="futureBookingsManager"></section>
             <h2 class="heading-manager-customer">Past Bookings</h2>
             <section class="list-bookings-manager" id="pastBookingsManager"></section>
         `);
@@ -234,8 +233,9 @@ const makeBookingDashManager = () => {
         <section class="book-for-customer-section" id="bookForCustomerSection">
             <h1 class="manager-book-room-heading">Let's make your customer's booking.</h1>
             <form class="room-picker-manager-form" id="roomPickerManager">
-                <label class="search-label" for="stay-date">Pick your stay date: </label>
-                <input class="search-intput-calander" type="date" id="datePickerManager" name="stay-date" value="${getTodaysDate().split('/').join('-')}" min="${getTodaysDate().split('/').join('-')}" max="2024-01-01">
+                <label class="search-label" for="stay-date">Pick your stay date: 
+                    <input type="date" id="datePickerManager" name="stay-date" value="${getTodaysDate().split('/').join('-')}" min="${getTodaysDate().split('/').join('-')}" max="2024-01-01">
+                </label>
                 <input class="search-btn" id="roomPickerBtnManager" type="submit" value="Find Rooms">
             </form>
         </section>
@@ -331,7 +331,7 @@ const confirmCancelCustomer = (bookingID) => {
     document.getElementById('cancelBtn').remove();
     document.getElementById('roomDisplayWrapper').innerHTML += (`
         <form class="form">
-            <lable class="search-label" for="confirm-cancel">Are you sure you want too cancel?</label>
+            <label class="search-label" for="confirm-cancel">Are you sure you want too cancel?</label>
             <input class="cancel-btn" id="confirmCancelBtn" type="submit" name="confirm-cancel" value="Confirm" data-selectedBookingID="${bookingID}">
         </form>
     `);
@@ -344,7 +344,7 @@ const cancelBookingAndShowResponse = (bookingID) => {
         if (!response.ok) {
             throw 'Oops, looks like something went wrong. Please try agian.'
         } else {
-            refreshCustomerAndHotel(cancelMessege);
+            refreshCustomerAndHotel(cancelMessage);
         }
     
     })
@@ -367,7 +367,7 @@ const bookRoomCustomer = () => {
             <p class="information pick-date-info">Pick the date of your stay.</p>
             <form class="room-picker" id="roomPicker">
                 <label class="search-label" for="stay-date">Pick your stay date: </label>
-                <input class="search-intput-calander" type="date" id="datePicker" name="stay-date" value="${getTodaysDate().split('/').join('-')}" min="${getTodaysDate().split('/').join('-')}" max="2024-01-01">
+                <input class="search-input-calender" type="date" id="datePicker" name="stay-date" value="${getTodaysDate().split('/').join('-')}" min="${getTodaysDate().split('/').join('-')}" max="2024-01-01">
                 <input class="find-btn" id="roomPickerBtn" type="submit" value="Find Rooms">
             </form>
         </section>
@@ -418,14 +418,15 @@ const displayAvailableUnfilteredRooms = (roomsDateAndElement) => {
     roomsDateAndElement.element.innerHTML += (`
             <h1 class="heading available-room-heading" id="roomPickerHeading">Here are all available rooms for ${makeDateDisplay(roomsDateAndElement.date)}.</h1>
             <form class="form-filter" id="filterRooms">
-                <label class="search-label-filter" for="room-type">Filter rooms by type: </label>
-                <select class="room-type-select" id="filterRoomChoice" name="room-type">
-                    <option class="room-type-option" value="">All Available</option>
-                    <option class="room-type-option" value="residential suite">Residential Suite</option>
-                    <option class="room-type-option" value="suite">Suite</option>
-                    <option class="room-type-option" value="single room">Single Room</option>
-                    <option class="room-type-option" value="junior suite">Junior Suite</option>
-                </select> 
+                <label class="search-label-filter" for="room-type">Filter rooms by type: 
+                    <select class="room-type-select" id="filterRoomChoice" name="room-type">
+                        <option class="room-type-option" value="">All Available</option>
+                        <option class="room-type-option" value="residential suite">Residential Suite</option>
+                        <option class="room-type-option" value="suite">Suite</option>
+                        <option class="room-type-option" value="single room">Single Room</option>
+                        <option class="room-type-option" value="junior suite">Junior Suite</option>
+                    </select> 
+                </label>
                 <input class="search-btn-filter" id="roomFilterBtn" type="button" value="Filter" data-date="${roomsDateAndElement.date}">
             </form>
             <section class="available-room-section" id="availableRoomSection"></section>
@@ -484,7 +485,7 @@ const confirmBooking = (dateAndRoomNumber) => {
     const booking = hotel.makeBookingObj({id: customer.id, date: dateAndRoomNumber.date, roomNumber: dateAndRoomNumber.roomNumber});
     postBooking(booking)
         .then(data => {
-            refreshCustomerAndHotel(bookedMessege)
+            refreshCustomerAndHotel(bookedMessage)
         })
         .catch(error => {
             hideOff([document.getElementById('bookingError')])
@@ -638,12 +639,12 @@ dashboardSectionManager.addEventListener('click', (event) => {
                 if (!response.ok) {
                     throw 'Looks like something went wrong. The booking wasnt canceled'
                 } else {
-                    refreshManagerHoterAndCustomers('canceled');
+                    refreshManagerHotelAndCustomers('canceled');
                 }
             })
             .catch(error => {
-                document.getElementById(`a${bookin.id}`).innerHTML += `<p>Looks like something went wrong. Error: ${error}</p>`;
-                setError(document.getElementById(`a${bookin.id}`));
+                document.getElementById(`a${booking.id}`).innerHTML += `<p>Looks like something went wrong. Error: ${error}</p>`;
+                setError(document.getElementById(`a${booking.id}`));
             })
     } else if (event.target.getAttribute('data-bookingID')) {
         confirmCancelManager(event.target.getAttribute('data-bookingID'))
@@ -669,7 +670,7 @@ bookRoomSectionManager.addEventListener('click', (event) => {
         const booking = hotel.makeBookingObj({id: customer.id, date: event.target.getAttribute('data-date'), roomNumber: parseInt(event.target.getAttribute('data-roomNumber'))});
         postBooking(booking)
             .then(data => {
-                refreshManagerHoterAndCustomers('confirmed');
+                refreshManagerHotelAndCustomers('confirmed');
             })
             .catch(error => {
                 document.getElementById(`room${booking.roomNumber}`).innerHTML += `<p>Looks like something went wrong. Error: ${error}</p>`;
