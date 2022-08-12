@@ -562,7 +562,7 @@ loginSection.addEventListener('click', (event) => {
             setError(loginDescription);
         } else if (password === 'overlook2021' && loginName === 'manager') {
             loginAsManager();
-        } else if (password === 'overlook2021' && loginName.includes('customer') && loginName.replace('customer', '') <= 50) {
+        } else if (password === 'overlook2021' && loginName.includes('customer') && loginName.replace('customer', '') <= 50 && loginName.replace('customer', '').length > 0) {
             loginAsCustomer(loginName.replace('customer', ''));
         } else {
             loginDescription.innerHTML = '<i class="fa-solid fa-x"></i> Invalid login credentials.';
